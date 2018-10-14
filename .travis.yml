@@ -11,5 +11,11 @@ install:
 script:
 - dotnet build
 
+deploy:
+  provider: heroku
+  api_key: $HEROKU_TOKEN
+  app: uniy3-project
+  on: master
+
 notifications:
   email: false
