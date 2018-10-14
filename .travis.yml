@@ -1,0 +1,21 @@
+language: csharp
+mono: none
+dotnet: 2.1
+solution: Project.sln
+
+install:
+- nvm install 8.12.0
+- nvm use 8.12.0
+- dotnet restore
+
+script:
+- dotnet build
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_TOKEN
+  app: uniy3-project
+  on: master
+
+notifications:
+  email: false
