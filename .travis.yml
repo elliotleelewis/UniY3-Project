@@ -1,4 +1,8 @@
 language: csharp
 mono: none
-dotnet: 2.1.5
+dotnet: 2.1.200
 solution: Project.sln
+
+branches:
+	only:
+	- master
