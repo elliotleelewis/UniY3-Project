@@ -32,7 +32,7 @@ export default class Layout extends React.Component<IProps> {
 			<>
 				<Navbar color="light" light={true} expand="md">
 					<Link className="navbar-brand" to="/">TITLE</Link>
-					<NavbarToggler onClick={this.toggleNavbar} />
+					<NavbarToggler title="Toggle Menu" onClick={this.toggleNavbar} />
 					<Collapse isOpen={false} navbar={true}>
 						<Nav className="ml-md-auto" navbar={true}>
 							<NavItem>

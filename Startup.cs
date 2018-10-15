@@ -24,7 +24,8 @@ namespace Project
 		public static void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+			services.AddResponseCaching();
+			services.AddResponseCompression();
 			// In production, the React files will be served from this directory
 			services.AddSpaStaticFiles((configuration) =>
 			{
@@ -46,6 +47,8 @@ namespace Project
 			}
 
 			app.UseHttpsRedirection();
+			app.UseResponseCaching();
+			app.UseResponseCompression();
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
 

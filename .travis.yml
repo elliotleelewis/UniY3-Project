@@ -12,6 +12,7 @@ install:
 
 script:
 - dotnet build
+- yarn --cwd ClientApp lint
 - yarn --cwd ClientApp test
 
 deploy:

@@ -1,5 +1,6 @@
 {
   "private": true,
+  "homepage": "https://uniy3-project.herokuapp.com",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
