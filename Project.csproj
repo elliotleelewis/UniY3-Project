@@ -9,6 +9,7 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 		<StartupObject></StartupObject>
 		<ApplicationIcon />
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<CodeAnalysisRuleSet>stylecop.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
@@ -17,6 +18,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

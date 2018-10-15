@@ -11,7 +11,7 @@ namespace Project.Controllers
 	using Microsoft.AspNetCore.Mvc;
 
 	[Route("api/[controller]")]
-	public class SampleController : Controller
+	public class ExampleController : Controller
 	{
 		private static readonly string[] Summaries = new[]
 		{

@@ -45,7 +45,7 @@ ReactDOM.render(
 	document.getElementById('root'),
 );
 
-fetch('/api/Sample/Forecasts')
+fetch('/api/Example/Forecasts')
 	.then((response) => response.json())
 	.then(console.log);
 

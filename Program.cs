@@ -7,8 +7,15 @@ namespace Project
 	using Microsoft.AspNetCore;
 	using Microsoft.AspNetCore.Hosting;
 
+	/// <summary>
+	/// Entry point for Application, contains Main method.
+	/// </summary>
 	public static class Program
 	{
+		/// <summary>
+		/// Main method, runs when Application is launched.
+		/// </summary>
+		/// <param name="args">Program Args.</param>
 		public static void Main(string[] args)
 		{
 			CreateWebHostBuilder(args).Build().Run();
