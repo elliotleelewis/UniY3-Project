@@ -1,9 +1,13 @@
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-
-namespace Source
+// <copyright file="Program.cs" company="Elliot Lewis">
+// Copyright (c) Elliot Lewis. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+namespace Project
 {
-	public class Program
+	using Microsoft.AspNetCore;
+	using Microsoft.AspNetCore.Hosting;
+
+	public static class Program
 	{
 		public static void Main(string[] args)
 		{

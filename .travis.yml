@@ -10,6 +10,7 @@ install:
 
 script:
 - dotnet build
+- yarn --cwd ClientApp test
 
 deploy:
   provider: heroku

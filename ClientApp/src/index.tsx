@@ -45,4 +45,8 @@ ReactDOM.render(
 	document.getElementById('root'),
 );
 
+fetch('/api/Sample/Forecasts')
+	.then((response) => response.json())
+	.then(console.log);
+
 registerServiceWorker();
