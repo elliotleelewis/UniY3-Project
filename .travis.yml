@@ -6,9 +6,7 @@ solution: Project.sln
 before_install:
 - nvm install 8.12.0
 - curl -o- -L https://yarnpkg.com/install.sh | bash
-- export PATH="$HOME/.yarn/bin:$PATH"
-- which yarn
-- yarn -v
+- export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 install:
 - dotnet restore
 

@@ -4,7 +4,7 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test",
-    "lint": "eslint"
+    "lint": "tslint --project tsconfig.json"
   },
   "dependencies": {
     "bootstrap": "^4.1.3",
@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "@types/clmtrackr": "^1.1.0",
+    "@types/enzyme": "^3.1.14",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.3",
     "@types/react": "^16.4.14",
@@ -32,9 +34,10 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/reactstrap": "^6.4.0",
     "@types/redux-immutable": "^3.0.38",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "node-sass": "^4.9.3",
     "react-scripts-ts": "^4.0.8",
-    "react-test-renderer": "^16.5.2",
     "typescript": "^3.1.1"
   },
   "browserslist": [
