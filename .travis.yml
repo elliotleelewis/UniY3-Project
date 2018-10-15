@@ -3,9 +3,13 @@ mono: none
 dotnet: 2.1
 solution: Project.sln
 
-install:
+before_install:
 - nvm install 8.12.0
-- nvm use 8.12.0
+- curl -o- -L https://yarnpkg.com/install.sh | bash
+- export PATH="$HOME/.yarn/bin:$PATH"
+- which yarn
+- yarn -v
+install:
 - dotnet restore
 
 script:
