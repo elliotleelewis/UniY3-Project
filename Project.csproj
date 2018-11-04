@@ -14,10 +14,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="1.0.9" />
 		<PackageReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
+		<PackageReference Include="MongoDB.Driver" Version="2.7.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta.47" PrivateAssets="All" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
 	</ItemGroup>
 
@@ -53,7 +55,7 @@
 
 		<!-- Include the newly-built files in the publish output -->
 		<ItemGroup>
-			<DistFiles Include="$(SpaRoot)build\**" />
+			<DistFiles Include="$(SpaRoot)dist\**" />
 			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
 				<RelativePath>%(DistFiles.Identity)</RelativePath>
 				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
