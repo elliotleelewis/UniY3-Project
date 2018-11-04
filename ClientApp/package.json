@@ -3,7 +3,7 @@
   "scripts": {
     "start": "ng serve --aot",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "prettier:fix": "prettier --write \"**/*{.ts,.js,.scss}\"",

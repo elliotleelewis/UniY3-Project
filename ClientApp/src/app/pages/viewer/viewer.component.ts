@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+	Component,
+	ElementRef,
+	OnDestroy,
+	OnInit,
+	ViewChild,
+} from '@angular/core';
 import clm from 'clmtrackr';
 
 @Component({
@@ -17,7 +23,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		// this.enabled = true;
-		navigator.mediaDevices.getUserMedia({ video: true })
+		navigator.mediaDevices
+			.getUserMedia({ video: true })
 			.then((stream: MediaStream) => {
 				this.videoRef.nativeElement.srcObject = stream;
 				const setCanvasSize = () => {
@@ -27,7 +34,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 				};
 				this.videoRef.nativeElement.onresize = setCanvasSize;
 				setCanvasSize();
-				this.canvasContext = this.canvasRef.nativeElement.getContext('2d');
+				this.canvasContext = this.canvasRef.nativeElement.getContext(
+					'2d',
+				);
 				this.tracker = new clm.tracker();
 				this.tracker.init();
 				this.tracker.start(this.videoRef.nativeElement);
@@ -38,20 +47,32 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.enabled = false;
-		(this.videoRef.nativeElement.srcObject as MediaStream).getVideoTracks().forEach((track) => track.stop());
+		const stream = this.videoRef.nativeElement.srcObject as MediaStream;
+		if (stream) {
+			stream.getVideoTracks().forEach((track) => track.stop());
+		}
 	}
 
 	render() {
 		if (this.enabled) {
 			requestAnimationFrame(() => {
-				this.canvasContext.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+				this.canvasContext.clearRect(
+					0,
+					0,
+					this.canvasRef.nativeElement.width,
+					this.canvasRef.nativeElement.height,
+				);
 				this.track();
 				this.render();
 			});
-		}
-		else {
+		} else {
 			requestAnimationFrame(() => {
-				this.canvasContext.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+				this.canvasContext.clearRect(
+					0,
+					0,
+					this.canvasRef.nativeElement.width,
+					this.canvasRef.nativeElement.height,
+				);
 			});
 		}
 	}
@@ -61,7 +82,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 			this.tracker.draw(this.canvasRef.nativeElement);
 		}
 		// console.log(this.tracker.getCurrentPosition());
-		console.log('test');
 	}
 
 	toggleEnabled() {
