@@ -204,7 +204,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 		},
 	];
 
-	ngOnInit() {
+	ngOnInit(): void {
 		// this.enabled = true;
 		this.deformation = this.presets[0].value;
 		navigator.mediaDevices
@@ -231,7 +231,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 			.catch(console.error);
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy(): void {
 		this.enabled = false;
 		const stream = this.videoRef.nativeElement.srcObject as MediaStream;
 		if (stream) {
@@ -239,7 +239,7 @@ export class ViewComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	render() {
+	render(): void {
 		if (this.enabled) {
 			requestAnimationFrame(() => {
 				this.canvasContext.clearRect(
@@ -263,14 +263,14 @@ export class ViewComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	track() {
+	track(): void {
 		if (this.tracker.getCurrentPosition()) {
 			this.tracker.draw(this.canvasRef.nativeElement);
 		}
 		// console.log(this.tracker.getCurrentPosition());
 	}
 
-	toggleEnabled() {
+	toggleEnabled(): void {
 		this.enabled = !this.enabled;
 		this.render();
 	}
