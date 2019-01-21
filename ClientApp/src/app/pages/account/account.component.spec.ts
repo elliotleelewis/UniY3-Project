@@ -1,18 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LayoutComponent } from './layout.component';
+import { AccountComponent } from './account.component';
 
-describe('LayoutComponent', () => {
-	let component: LayoutComponent;
-	let fixture: ComponentFixture<LayoutComponent>;
+describe('AccountComponent', () => {
+	let component: AccountComponent;
+	let fixture: ComponentFixture<AccountComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [LayoutComponent],
-			imports: [HttpClientTestingModule, RouterTestingModule, NgbModule],
+			declarations: [AccountComponent],
+			imports: [HttpClientTestingModule, RouterTestingModule],
 			providers: [
 				{ provide: 'LOCAL_STORAGE', useValue: window.localStorage },
 			],
@@ -20,7 +19,7 @@ describe('LayoutComponent', () => {
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(LayoutComponent);
+		fixture = TestBed.createComponent(AccountComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

@@ -1,3 +1,5 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -11,7 +13,15 @@ describe('RegisterComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
 			declarations: [RegisterComponent],
-			imports: [FormsModule, RouterTestingModule],
+			imports: [
+				HttpClientTestingModule,
+				FormsModule,
+				RouterTestingModule,
+			],
+			providers: [
+				{ provide: 'LOCAL_STORAGE', useValue: window.localStorage },
+			],
+			schemas: [NO_ERRORS_SCHEMA],
 		}).compileComponents();
 	}));
 
