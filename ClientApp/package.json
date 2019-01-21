@@ -7,7 +7,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "prettier:fix": "prettier --write \"**/*{.ts,.js,.scss}\"",
-    "prettier:check": "prettier --list-different \"**/*{.ts,.js,.scss}\""
+    "prettier:check": "prettier --check \"**/*{.ts,.js,.scss}\""
   },
   "dependencies": {
     "@angular/animations": "^7.2.1",
@@ -56,6 +56,7 @@
     "singleQuote": true,
     "tabWidth": 4,
     "trailingComma": "all",
-    "useTabs": true
+    "useTabs": true,
+    "endOfLine": "crlf"
   }
 }
