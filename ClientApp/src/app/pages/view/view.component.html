@@ -1,0 +1,15 @@
+<div class="container">
+	<div class="d-flex position-relative justify-content-center">
+		<video width="640" height="480" autoplay muted playsinline #video></video>
+		<canvas class="position-absolute" #canvas></canvas>
+	</div>
+	<div class="my-4 text-center">
+		<button class="btn btn-primary mb-3" (click)="toggleEnabled()">Toggle Enabled</button>
+		<div class="form-group">
+			<label for="deformation">Deformation</label>
+			<select id="deformation" class="form-control" name="deformation" [(ngModel)]="deformation">
+				<option [value]="preset.value" *ngFor="let preset of presets">{{ preset.name }}</option>
+			</select>
+		</div>
+	</div>
+</div>

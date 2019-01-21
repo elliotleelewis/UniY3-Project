@@ -9,8 +9,13 @@ addons:
     packages:
     - google-chrome-stable
 
+cache:
+  yarn: true
+  directories:
+  - ClientApp/node_modules
+
 before_install:
-- nvm install 8.12.0
+- nvm install 10.15.0
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 install:
@@ -18,10 +23,12 @@ install:
 
 script:
 - dotnet build
+- yarn --cwd ClientApp
 - yarn --cwd ClientApp test
 - yarn --cwd ClientApp e2e
 - yarn --cwd ClientApp lint
-- yarn --cwd ClientApp prettier:check
+# TODO - Re-enable prettier check
+#- yarn --cwd ClientApp prettier:check
 
 deploy:
   provider: heroku
