@@ -10,7 +10,7 @@ addons:
     - google-chrome-stable
 
 cache:
-- yarn
+  yarn: true
   directories:
   - ClientApp/node_modules
 
