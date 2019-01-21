@@ -20,15 +20,20 @@ export class AccountService {
 		@Inject('LOCAL_STORAGE') private _localStorage: Storage,
 		private _http: HttpClient,
 	) {
-		const jwt = this.getParsedToken();
-		// TODO - Check for token expiration
-		if (jwt) {
+		const token = this.getToken();
+		const jwt = AccountService.parseToken(token);
+		if (jwt && AccountService.isValidToken(token)) {
 			this.user = new BehaviorSubject<User>(<User>{
 				email: jwt.payload.sub,
 			});
 		} else {
 			this.user = new BehaviorSubject<User>(null);
 		}
+	}
+
+	static isValidToken(token: string): boolean {
+		// TODO - Check for token expiration
+		return !!token;
 	}
 
 	static parseToken(token: string): Jwt {
@@ -46,13 +51,12 @@ export class AccountService {
 		return this._localStorage.getItem(AccountService.CURRENT_USER);
 	}
 
-	getParsedToken(): Jwt {
-		const token = this.getToken();
-		return AccountService.parseToken(token);
-	}
-
 	setToken(token: string): void {
 		this._localStorage.setItem(AccountService.CURRENT_USER, token);
+	}
+
+	removeToken(): void {
+		this._localStorage.removeItem(AccountService.CURRENT_USER);
 	}
 
 	isAuthenticated(): boolean {
@@ -66,10 +70,7 @@ export class AccountService {
 				map((token) => {
 					const jwt = AccountService.parseToken(token);
 					if (jwt) {
-						this._localStorage.setItem(
-							'CURRENT_USER',
-							token,
-						);
+						this.setToken(token);
 					}
 					this.user.next(<User>{
 						email: jwt.payload.sub,
@@ -80,7 +81,7 @@ export class AccountService {
 	}
 
 	logout(): void {
-		this._localStorage.removeItem('CURRENT_USER');
+		this.removeToken();
 		this.user.next(null);
 	}
 

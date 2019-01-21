@@ -9,6 +9,7 @@ describe('JwtInterceptor', () => {
 		TestBed.configureTestingModule({
 			imports: [HttpClientTestingModule],
 			providers: [
+				{ provide: 'LOCAL_STORAGE', useValue: window.localStorage },
 				{
 					provide: HTTP_INTERCEPTORS,
 					useClass: JwtInterceptor,
