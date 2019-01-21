@@ -23,6 +23,7 @@ install:
 
 script:
 - dotnet build
+- yarn --cwd ClientApp
 - yarn --cwd ClientApp test
 - yarn --cwd ClientApp e2e
 - yarn --cwd ClientApp lint
