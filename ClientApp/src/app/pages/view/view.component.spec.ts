@@ -9,9 +9,7 @@ describe('ViewComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			imports: [
-				FormsModule,
-			],
+			imports: [FormsModule],
 			declarations: [ViewComponent],
 		}).compileComponents();
 	}));
