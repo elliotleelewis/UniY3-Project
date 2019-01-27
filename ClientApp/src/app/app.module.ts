@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from '../environments/environment';
@@ -62,6 +65,7 @@ import { MatchesValidator } from './validators/matches.validator';
 			{ path: 'editor', component: EditorComponent },
 			{ path: 'editor/:id', component: EditorComponent },
 		]),
+		FontAwesomeModule,
 		NgbModule,
 	],
 	providers: [
@@ -72,7 +76,11 @@ import { MatchesValidator } from './validators/matches.validator';
 	],
 	bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+	constructor() {
+		library.add(fas);
+	}
+}
 
 export function getLocalStorage(): Storage {
 	return typeof window !== 'undefined' ? window.localStorage : null;

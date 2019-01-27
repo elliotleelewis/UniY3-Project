@@ -17,3 +17,6 @@
 	</div>
 </nav>
 <ng-content></ng-content>
+<div class="loading position-fixed d-flex w-100 h-100 align-items-center justify-content-center" *ngIf="isLoading">
+	<fa-icon class="text-white" [icon]="['fas', 'spinner']" size="4x"></fa-icon>
+</div>

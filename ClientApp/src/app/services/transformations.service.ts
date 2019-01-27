@@ -11,4 +11,8 @@ export class TransformationsService {
 	getAllTransformations(): Observable<object[]> {
 		return this.http.get<object[]>('/api/transformations');
 	}
+
+	getTransformation(id: string): Observable<object> {
+		return this.http.get<object>('/api/transformations/' + id);
+	}
 }
