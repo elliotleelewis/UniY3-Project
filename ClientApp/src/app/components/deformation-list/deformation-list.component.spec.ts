@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { DeformationListComponent } from './deformation-list.component';
 
@@ -9,6 +10,7 @@ describe('DeformationListComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
 			declarations: [DeformationListComponent],
+			imports: [RouterTestingModule],
 		}).compileComponents();
 	}));
 
