@@ -152,7 +152,7 @@ namespace Project
 					};
 				});
 
-			services.AddSingleton<TransformationsRepository>();
+			services.AddSingleton<DeformationsRepository>();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -12,6 +12,8 @@ import { LoadingService } from '../../services/loading.service';
 	styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
+	@HostBinding('class')
+	class = 'd-flex position-relative w-100 flex-column';
 	navbarCollapsed = true;
 	isLoading = false;
 	user: User = null;

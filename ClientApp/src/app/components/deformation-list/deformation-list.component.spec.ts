@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditorComponent } from './editor.component';
+import { DeformationListComponent } from './deformation-list.component';
 
-describe('EditorComponent', () => {
-	let component: EditorComponent;
-	let fixture: ComponentFixture<EditorComponent>;
+describe('DeformationListComponent', () => {
+	let component: DeformationListComponent;
+	let fixture: ComponentFixture<DeformationListComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [EditorComponent],
+			declarations: [DeformationListComponent],
 		}).compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(EditorComponent);
+		fixture = TestBed.createComponent(DeformationListComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

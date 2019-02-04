@@ -7,32 +7,37 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
+import { DeformationListComponent } from './components/deformation-list/deformation-list.component';
+import { DeformerComponent } from './components/deformer/deformer.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AccountComponent } from './pages/account/account.component';
-import { EditorComponent } from './pages/editor/editor.component';
+import { CreateComponent } from './pages/create/create.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ViewComponent } from './pages/view/view.component';
 import { AccountService } from './services/account.service';
-import { TransformationsService } from './services/transformations.service';
+import { DeformationsService } from './services/deformations.service';
 import { MatchesValidator } from './validators/matches.validator';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		// Components
+		DeformationListComponent,
+		DeformerComponent,
 		LayoutComponent,
 		// Pages
 		AccountComponent,
-		EditorComponent,
+		CreateComponent,
 		HomeComponent,
 		LoginComponent,
 		RegisterComponent,
@@ -62,17 +67,26 @@ import { MatchesValidator } from './validators/matches.validator';
 				canActivate: [AuthGuard],
 			},
 			{ path: 'view/:id', component: ViewComponent },
-			{ path: 'editor', component: EditorComponent },
-			{ path: 'editor/:id', component: EditorComponent },
+			{
+				path: 'create',
+				component: CreateComponent,
+				canActivate: [AuthGuard],
+			},
+			{
+				path: 'create/:id',
+				component: CreateComponent,
+				canActivate: [AuthGuard],
+			},
 		]),
 		FontAwesomeModule,
 		NgbModule,
+		Ng5SliderModule,
 	],
 	providers: [
 		{ provide: 'LOCAL_STORAGE', useFactory: getLocalStorage },
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		AccountService,
-		TransformationsService,
+		DeformationsService,
 	],
 	bootstrap: [AppComponent],
 })

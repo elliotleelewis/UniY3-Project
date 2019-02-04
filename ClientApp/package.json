@@ -26,6 +26,7 @@
     "bootstrap": "^4.2.1",
     "clmtrackr": "^1.1.2",
     "core-js": "^2.6.3",
+    "ng5-slider": "^1.1.12",
     "rxjs": "^6.3.3",
     "zone.js": "^0.8.29"
   },

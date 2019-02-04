@@ -23,20 +23,6 @@ export class DeformerService {
 	drawProgram: WebGLProgram;
 	gridProgram: WebGLProgram;
 
-	static create3DContext(canvas: HTMLCanvasElement): WebGLRenderingContext {
-		const names = ['webgl', 'experimental-webgl'];
-		let context = null;
-		for (const name of names) {
-			try {
-				context = canvas.getContext(name);
-			} catch (e) {}
-			if (context) {
-				break;
-			}
-		}
-		return context;
-	}
-
 	static loadShader(
 		gl: WebGLRenderingContext,
 		shaderSource: string,
@@ -73,9 +59,9 @@ export class DeformerService {
 		return program;
 	}
 
-	init(canvas: HTMLCanvasElement): void {
-		// ready a webgl element
-		this.gl = DeformerService.create3DContext(canvas);
+	init(gl: WebGLRenderingContext): void {
+		this.first = true;
+		this.gl = gl;
 		// @ts-ignore
 		this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 	}

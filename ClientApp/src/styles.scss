@@ -2,6 +2,17 @@
 @import '~bootstrap/scss/bootstrap';
 
 // Styles
+html,
+body {
+	height: 100%;
+}
+.o {
+	&y {
+		&-auto {
+			overflow-y: auto;
+		}
+	}
+}
 .form-label-group {
 	position: relative;
 	margin-bottom: 1rem;

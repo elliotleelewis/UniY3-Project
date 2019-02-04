@@ -6,12 +6,13 @@
 				<div class="form-label-group">
 					<input
 						id="email"
+						class="form-control"
 						type="email"
 						name="email"
 						placeholder="Email Address"
 						required
 						email
-						[ngClass]="{ 'form-control': true, 'is-invalid': (form.submitted && email.invalid) }"
+						[ngClass]="{ 'is-invalid': (form.submitted && email.invalid) }"
 						[(ngModel)]="formData.email"
 						#email="ngModel"
 					/>
@@ -24,11 +25,12 @@
 				<div class="form-label-group">
 					<input
 						id="password"
+						class="form-control"
 						type="password"
 						name="password"
 						placeholder="Password"
 						required
-						[ngClass]="{ 'form-control': true, 'is-invalid': (form.submitted && password.invalid) }"
+						[ngClass]="{ 'is-invalid': (form.submitted && password.invalid) }"
 						[(ngModel)]="formData.password"
 						#password="ngModel"
 					/>
@@ -39,7 +41,7 @@
 				</div>
 				<div class="d-flex">
 					<a class="btn btn-outline-success ml-auto" [routerLink]="'/register'">Register</a>
-					<button class="btn btn-primary ml-2">Login</button>
+					<button class="btn btn-primary ml-2" [ngClass]="{'disabled': !form.valid}">Login</button>
 				</div>
 			</form>
 		</div>

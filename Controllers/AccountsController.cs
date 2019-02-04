@@ -6,7 +6,7 @@ namespace Project.Controllers
 {
 	using System;
 	using System.Collections.Generic;
-	using System.ComponentModel.DataAnnotations;
+	using System.Globalization;
 	using System.IdentityModel.Tokens.Jwt;
 	using System.Linq;
 	using System.Security.Claims;
@@ -18,6 +18,7 @@ namespace Project.Controllers
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.IdentityModel.Tokens;
 	using Project.Models;
+	using Project.Models.Dto;
 
 	[ApiController]
 	[Authorize]
@@ -61,7 +62,7 @@ namespace Project.Controllers
 		/// <returns>JWT.</returns>
 		[AllowAnonymous]
 		[HttpPost("[action]")]
-		public async Task<ActionResult<object>> Login([FromBody] LoginRegisterDto model)
+		public async Task<ActionResult<object>> Login([FromBody] LoginRegisterDtoModel model)
 		{
 			var result = await this._signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
@@ -81,7 +82,7 @@ namespace Project.Controllers
 		/// <returns>JWT.</returns>
 		[AllowAnonymous]
 		[HttpPost("[action]")]
-		public async Task<ActionResult<object>> Register([FromBody] LoginRegisterDto model)
+		public async Task<ActionResult<object>> Register([FromBody] LoginRegisterDtoModel model)
 		{
 			var user = new ApplicationUserModel
 			{
@@ -110,7 +111,7 @@ namespace Project.Controllers
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration["Jwt:Key"]));
 			var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-			var expires = DateTime.Now.AddDays(Convert.ToDouble(this._configuration["Jwt:ExpireDays"]));
+			var expires = DateTime.Now.AddDays(Convert.ToDouble(this._configuration["Jwt:ExpireDays"], CultureInfo.CurrentCulture));
 
 			var token = new JwtSecurityToken(
 				this._configuration["Jwt:Issuer"],
@@ -120,15 +121,6 @@ namespace Project.Controllers
 				signingCredentials: credentials);
 
 			return new JwtSecurityTokenHandler().WriteToken(token);
-		}
-
-		public class LoginRegisterDto
-		{
-			[Required]
-			public string Email { get; set; }
-
-			[Required]
-			public string Password { get; set; }
 		}
 	}
 }
