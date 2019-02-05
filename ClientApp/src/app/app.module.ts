@@ -21,7 +21,6 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ViewComponent } from './pages/view/view.component';
 import { AccountService } from './services/account.service';
 import { DeformationService } from './services/deformation.service';
-import { DeformerService } from './services/deformer.service';
 import { MatchesValidator } from './validators/matches.validator';
 
 @NgModule({
@@ -82,7 +81,6 @@ import { MatchesValidator } from './validators/matches.validator';
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		AccountService,
 		DeformationService,
-		DeformerService,
 	],
 	bootstrap: [AppComponent],
 })
