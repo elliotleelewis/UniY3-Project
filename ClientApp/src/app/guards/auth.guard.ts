@@ -13,13 +13,13 @@ import { AccountService } from '../services/account.service';
 	providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-	constructor(private account: AccountService, private _router: Router) {}
+	constructor(private _account: AccountService, private _router: Router) {}
 
 	canActivate(
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot,
 	): Observable<boolean> | Promise<boolean> | boolean {
-		const isAuthenticated = this.account.isAuthenticated();
+		const isAuthenticated = this._account.isAuthenticated();
 		if (!isAuthenticated) {
 			this._router.navigate(['/login'], {
 				queryParams: { redirect: '/' + next.url.join('/') },

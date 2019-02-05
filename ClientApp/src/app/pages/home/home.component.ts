@@ -1,7 +1,8 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 
 import { Deformation } from '../../models/deformation';
-import { DeformationsService } from '../../services/deformations.service';
+import { DeformationService } from '../../services/deformation.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
 	selector: 'app-home',
@@ -12,13 +13,18 @@ export class HomeComponent implements OnInit {
 	@HostBinding('class')
 	class = 'd-block my-3 m-sm-5';
 
-	allDeformations: Deformation[];
+	deformations: Deformation[];
 
-	constructor(private deformations: DeformationsService) {}
+	constructor(
+		private _deformation: DeformationService,
+		private _loading: LoadingService,
+	) {}
 
 	ngOnInit(): void {
-		this.deformations
-			.getAllDeformations()
-			.subscribe((deformations) => (this.allDeformations = deformations));
+		this._loading.setState(true);
+		this._deformation.getAllDeformations().subscribe((deformations) => {
+			this.deformations = deformations;
+			this._loading.setState(false);
+		});
 	}
 }

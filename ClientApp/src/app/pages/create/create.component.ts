@@ -1,17 +1,18 @@
-import { Component, HostBinding, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Options } from 'ng5-slider';
 
 import { DeformationCreate } from '../../models/api/deformation-create';
-import { DeformationsService } from '../../services/deformations.service';
+import { DeformationService } from '../../services/deformation.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
 	selector: 'app-create',
 	templateUrl: './create.component.html',
 	styleUrls: ['./create.component.scss'],
 })
-export class CreateComponent {
+export class CreateComponent implements OnInit {
 	@HostBinding('class')
 	class = 'd-flex h-100';
 	@ViewChild('form')
@@ -47,7 +48,8 @@ export class CreateComponent {
 	};
 
 	constructor(
-		private deformations: DeformationsService,
+		private _deformation: DeformationService,
+		private _loading: LoadingService,
 		private _router: Router,
 	) {}
 
@@ -58,13 +60,19 @@ export class CreateComponent {
 		};
 	}
 
-	save(): void {
+	ngOnInit(): void {
+		// TODO - load named edit from route params
+	}
+
+	onSubmit(): void {
 		if (!this.form.valid) {
 			return;
 		}
-		this.deformations
+		this._loading.setState(true);
+		this._deformation
 			.saveDeformation(this.deformation)
 			.subscribe((deformation) => {
+				this._loading.setState(false);
 				this._router.navigate(['/view/', deformation.id]);
 			});
 	}

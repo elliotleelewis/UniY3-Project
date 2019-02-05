@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserLogin } from '../../models/api/user-login';
 import { AccountService } from '../../services/account.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
 	selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
 	redirect = '/';
 
 	constructor(
-		private account: AccountService,
+		private _account: AccountService,
+		private _loading: LoadingService,
 		private _router: Router,
 		private _activatedRoute: ActivatedRoute,
 	) {}
@@ -40,13 +42,17 @@ export class LoginComponent implements OnInit {
 		if (this.form.invalid) {
 			return;
 		}
-		this.account.login(this.formData).subscribe(
+		this._loading.setState(true);
+		this._account.login(this.formData).subscribe(
 			(data) => {
 				console.log(data);
 				this._router.navigateByUrl(this.redirect);
 			},
 			(error) => {
 				console.error('ERROR:', error);
+			},
+			() => {
+				this._loading.setState(false);
 			},
 		);
 	}

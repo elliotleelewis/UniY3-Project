@@ -18,15 +18,17 @@ import { DeformerService } from '../../services/deformer.service';
 	styleUrls: ['./deformer.component.scss'],
 })
 export class DeformerComponent implements OnInit, OnDestroy {
-	@Input()
-	deformation: Deformation;
-	canvas: HTMLCanvasElement;
 	@ViewChild('video')
 	videoRef: ElementRef<HTMLVideoElement>;
 	@ViewChild('overlay')
 	overlayRef: ElementRef<HTMLCanvasElement>;
 	@ViewChild('webGl')
 	webGlRef: ElementRef<HTMLCanvasElement>;
+
+	@Input()
+	deformation: Deformation;
+
+	canvas: HTMLCanvasElement;
 	canvasContext: CanvasRenderingContext2D;
 	overlayContext: CanvasRenderingContext2D;
 	webGlContext: WebGLRenderingContext;
@@ -105,7 +107,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		[19, 71, 0, 19],
 	];
 
-	constructor(private deformer: DeformerService) {}
+	constructor(private _deformer: DeformerService) {}
 
 	static create3DContext(canvas: HTMLCanvasElement): WebGLRenderingContext {
 		const names = ['webgl', 'experimental-webgl'];
@@ -149,7 +151,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 				this.tracker = new clm.tracker();
 				this.tracker.init(pModel);
 				this.tracker.start(this.videoRef.nativeElement);
-				this.deformer.init(this.webGlContext);
+				this._deformer.init(this.webGlContext);
 				this.render();
 			})
 			.catch(console.error);
@@ -204,7 +206,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			let newVertices = pModel.path.vertices.concat(this.mouthVertices);
 			newVertices = newVertices.concat(this.extendVertices);
 
-			this.deformer.load(this.canvas, newPos, pModel, newVertices);
+			this._deformer.load(this.canvas, newPos, pModel, newVertices);
 
 			const parameters = this.tracker.getCurrentParameters();
 			for (let i = 6; i < parameters.length; i++) {
@@ -222,7 +224,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 
 			if (positions) {
 				newPos = positions.concat(addPos);
-				this.deformer.draw(newPos);
+				this._deformer.draw(newPos);
 			}
 		}
 		requestAnimationFrame(() => {
@@ -232,7 +234,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	clear() {
+	clear(): void {
 		// TODO - see if you can remove some of these...
 		this.canvasContext.drawImage(
 			this.videoRef.nativeElement,
@@ -247,6 +249,6 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			this.canvas.width,
 			this.canvas.height,
 		);
-		this.deformer.clear();
+		this._deformer.clear();
 	}
 }

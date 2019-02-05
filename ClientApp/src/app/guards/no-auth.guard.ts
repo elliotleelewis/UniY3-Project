@@ -12,12 +12,12 @@ import { AccountService } from '../services/account.service';
 	providedIn: 'root',
 })
 export class NoAuthGuard implements CanActivate {
-	constructor(private account: AccountService) {}
+	constructor(private _account: AccountService) {}
 
 	canActivate(
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot,
 	): Observable<boolean> | Promise<boolean> | boolean {
-		return !this.account.isAuthenticated();
+		return !this._account.isAuthenticated();
 	}
 }
