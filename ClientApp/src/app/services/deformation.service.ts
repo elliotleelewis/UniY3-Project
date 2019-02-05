@@ -8,18 +8,18 @@ import { Deformation } from '../models/deformation';
 @Injectable({
 	providedIn: 'root',
 })
-export class DeformationsService {
-	constructor(private http: HttpClient) {}
+export class DeformationService {
+	constructor(private _http: HttpClient) {}
 
 	getAllDeformations(): Observable<Deformation[]> {
-		return this.http.get<Deformation[]>('/api/deformations');
+		return this._http.get<Deformation[]>('/api/deformations');
 	}
 
 	getDeformation(id: string): Observable<Deformation> {
-		return this.http.get<Deformation>('/api/deformations/' + id);
+		return this._http.get<Deformation>('/api/deformations/' + id);
 	}
 
 	saveDeformation(deformation: DeformationCreate): Observable<Deformation> {
-		return this.http.post<Deformation>('/api/deformations', deformation);
+		return this._http.post<Deformation>('/api/deformations', deformation);
 	}
 }

@@ -2,7 +2,8 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Deformation } from '../../models/deformation';
-import { DeformationsService } from '../../services/deformations.service';
+import { DeformationService } from '../../services/deformation.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
 	selector: 'app-view',
@@ -12,18 +13,24 @@ import { DeformationsService } from '../../services/deformations.service';
 export class ViewComponent implements OnInit {
 	@HostBinding('class')
 	class = 'd-flex h-100';
+
 	deformation: Deformation;
 
 	constructor(
-		private deformations: DeformationsService,
+		private _deformation: DeformationService,
+		private _loading: LoadingService,
 		private _activatedRoute: ActivatedRoute,
 	) {}
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this._activatedRoute.params.subscribe((params: { id: string }) => {
-			this.deformations
+			this._loading.setState(true);
+			this._deformation
 				.getDeformation(params.id)
-				.subscribe((deformation) => (this.deformation = deformation));
+				.subscribe((deformation) => {
+					this.deformation = deformation;
+					this._loading.setState(false);
+				});
 		});
 	}
 }

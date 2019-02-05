@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LayoutComponent } from './layout.component';
@@ -13,12 +12,7 @@ describe('LayoutComponent', () => {
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
 			declarations: [LayoutComponent],
-			imports: [
-				HttpClientTestingModule,
-				RouterTestingModule,
-				FontAwesomeModule,
-				NgbModule,
-			],
+			imports: [HttpClientTestingModule, RouterTestingModule, NgbModule],
 			providers: [
 				{ provide: 'LOCAL_STORAGE', useValue: window.localStorage },
 			],

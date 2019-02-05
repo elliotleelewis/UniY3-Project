@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { UserRegister } from '../../models/api/user-register';
 import { AccountService } from '../../services/account.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
 	selector: 'app-register',
@@ -22,19 +23,27 @@ export class RegisterComponent {
 		passwordConfirm: '',
 	};
 
-	constructor(private account: AccountService, private _router: Router) {}
+	constructor(
+		private _account: AccountService,
+		private _loading: LoadingService,
+		private _router: Router,
+	) {}
 
 	onSubmit(): void {
 		if (this.form.invalid) {
 			return;
 		}
-		this.account.register(this.formData).subscribe(
+		this._loading.setState(true);
+		this._account.register(this.formData).subscribe(
 			(data) => {
 				console.log(data);
 				this._router.navigate(['/']);
 			},
 			(error) => {
 				console.error(error);
+			},
+			() => {
+				this._loading.setState(false);
 			},
 		);
 	}

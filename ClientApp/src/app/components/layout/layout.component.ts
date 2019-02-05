@@ -14,14 +14,15 @@ import { LoadingService } from '../../services/loading.service';
 export class LayoutComponent implements OnInit {
 	@HostBinding('class')
 	class = 'd-flex position-relative w-100 flex-column';
+
 	navbarCollapsed = true;
-	isLoading = false;
+	loading = false;
 	user: User = null;
 	redirect: string = null;
 
 	constructor(
-		private account: AccountService,
-		private loading: LoadingService,
+		private _account: AccountService,
+		private _loading: LoadingService,
 		private _router: Router,
 	) {}
 
@@ -32,8 +33,8 @@ export class LayoutComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.account.user.subscribe((user) => (this.user = user));
-		this.loading.loading.subscribe((state) => (this.isLoading = state));
+		this._account.user.subscribe((user) => (this.user = user));
+		this._loading.loading.subscribe((state) => (this.loading = state));
 		this._router.events
 			.pipe(filter((event) => event instanceof NavigationEnd))
 			.subscribe((event: NavigationEnd) => {
