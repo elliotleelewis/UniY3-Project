@@ -1,0 +1,21 @@
+// Imports
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+// Styles
+::ng-deep {
+	.ng5-slider {
+		.ng5-slider-bar {
+			background-color: $light !important;
+		}
+		.ng5-slider-selection {
+			background-color: $secondary !important;
+		}
+		.ng5-slider-pointer {
+			background-color: $primary !important;
+			&:after {
+				display: none;
+			}
+		}
+	}
+}

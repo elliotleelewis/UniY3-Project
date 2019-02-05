@@ -1,24 +1,29 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { HomeComponent } from './home.component';
+import { CreateComponent } from './create.component';
 
-describe('HomeComponent', () => {
-	let component: HomeComponent;
-	let fixture: ComponentFixture<HomeComponent>;
+describe('CreateComponent', () => {
+	let component: CreateComponent;
+	let fixture: ComponentFixture<CreateComponent>;
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [HomeComponent],
-			imports: [HttpClientTestingModule, RouterTestingModule],
+			declarations: [CreateComponent],
+			imports: [
+				HttpClientTestingModule,
+				FormsModule,
+				RouterTestingModule,
+			],
 			schemas: [CUSTOM_ELEMENTS_SCHEMA],
 		}).compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(HomeComponent);
+		fixture = TestBed.createComponent(CreateComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

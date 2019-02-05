@@ -1,15 +1,28 @@
-<div class="container">
-	<div class="d-flex position-relative justify-content-center">
-		<video width="640" height="480" autoplay muted playsinline #video></video>
-		<canvas class="position-absolute" #canvas></canvas>
+<div class="row no-gutters w-100">
+	<div class="col-8 h-100">
+		<app-deformer
+			class="d-flex position-relative h-100 align-items-center justify-content-center"
+			[deformation]="deformation"
+			*ngIf="deformation"
+		></app-deformer>
 	</div>
-	<div class="my-4 text-center">
-		<button class="btn btn-primary mb-3" (click)="toggleEnabled()">Toggle Enabled</button>
-		<div class="form-group">
-			<label for="deformation">Deformation</label>
-			<select id="deformation" class="form-control" name="deformation" [(ngModel)]="deformation">
-				<option [value]="preset.value" *ngFor="let preset of presets">{{ preset.name }}</option>
-			</select>
+	<div class="col-4 h-100 card rounded-0 border-top-0 border-bottom-0 border-right-0">
+		<div class="card-header"><strong class="text-small-uppercase">{{ deformation?.name }}</strong></div>
+		<div class="card-body oy-auto text-center">
+			<div class="form-group">
+				<label for="created-by">Created by:</label>
+				<input id="created-by" class="form-control" type="text" [ngModel]="deformation?.createdBy.email" disabled/>
+			</div>
+			<div class="form-group">
+				<label for="created-at">Created at:</label>
+				<input id="created-at" class="form-control" type="text" [ngModel]="deformation?.createdAt | date:'medium'" disabled/>
+			</div>
+			<p class="h4 mt-auto">
+				<span class="badge badge-primary badge-pill badge-lg">{{ deformation?.views }} views</span>
+			</p>
+		</div>
+		<div class="card-footer">
+			<a class="btn btn-primary btn-lg w-100" [routerLink]="'/create/' + deformation?.id">Edit</a>
 		</div>
 	</div>
 </div>
