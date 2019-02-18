@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 import { Deformation } from '../../models/deformation';
 import { DeformationService } from '../../services/deformation.service';
@@ -27,9 +28,9 @@ export class ViewComponent implements OnInit {
 			this._loading.setState(true);
 			this._deformation
 				.getDeformation(params.id)
+				.pipe(finalize(() => this._loading.setState(false)))
 				.subscribe((deformation) => {
 					this.deformation = deformation;
-					this._loading.setState(false);
 				});
 		});
 	}

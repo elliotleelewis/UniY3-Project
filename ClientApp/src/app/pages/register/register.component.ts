@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, HostBinding, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 import { UserRegister } from '../../models/api/user-register';
 import { AccountService } from '../../services/account.service';
@@ -34,17 +36,24 @@ export class RegisterComponent {
 			return;
 		}
 		this._loading.setState(true);
-		this._account.register(this.formData).subscribe(
-			(data) => {
-				console.log(data);
-				this._router.navigate(['/']);
-			},
-			(error) => {
-				console.error(error);
-			},
-			() => {
-				this._loading.setState(false);
-			},
-		);
+		this._account
+			.register(this.formData)
+			.pipe(finalize(() => this._loading.setState(false)))
+			.subscribe(
+				() => {
+					this._router.navigate(['/']);
+				},
+				(error: HttpErrorResponse) => {
+					for (const e of error.error as { code: string }[]) {
+						switch (e.code) {
+							case 'DuplicateUserName':
+								this.form.controls['email'].setErrors({
+									unique: true,
+								});
+								break;
+						}
+					}
+				},
+			);
 	}
 }

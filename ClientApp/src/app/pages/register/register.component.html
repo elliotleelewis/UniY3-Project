@@ -20,6 +20,7 @@
 					<div class="invalid-feedback" *ngIf="form.submitted && email.invalid">
 						<div *ngIf="email.errors['required']">Email is required</div>
 						<div *ngIf="email.errors['email']">Email must be a valid email address</div>
+						<div *ngIf="email.errors['unique']">Email is already registered here</div>
 					</div>
 				</div>
 				<div class="form-label-group">

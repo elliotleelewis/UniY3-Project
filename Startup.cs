@@ -101,7 +101,7 @@ namespace Project
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.Configure<RouteOptions>((options) => options.LowercaseUrls = true);
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddResponseCaching();
 			services.AddResponseCompression();
 
@@ -125,7 +125,14 @@ namespace Project
 				});
 			});
 
-			services.AddIdentity<ApplicationUserModel, IdentityRoleModel>()
+			services.AddIdentity<ApplicationUserModel, IdentityRoleModel>((options) =>
+					{
+						options.Password.RequireDigit = false;
+						options.Password.RequireLowercase = false;
+						options.Password.RequireUppercase = false;
+						options.Password.RequireNonAlphanumeric = false;
+						options.Password.RequiredLength = 8;
+					})
 				.AddMongoDbStores<ApplicationUserModel, IdentityRoleModel, ObjectId>(
 					this._configuration["MongoDB:ConnectionString"],
 					this._configuration["MongoDB:Database"])
@@ -133,13 +140,13 @@ namespace Project
 
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
 			services
-				.AddAuthentication(options =>
+				.AddAuthentication((options) =>
 				{
 					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 					options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 					options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 				})
-				.AddJwtBearer(cfg =>
+				.AddJwtBearer((cfg) =>
 				{
 					cfg.RequireHttpsMetadata = false;
 					cfg.SaveToken = true;

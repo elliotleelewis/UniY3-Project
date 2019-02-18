@@ -73,11 +73,23 @@ namespace Project.Controllers
 		/// Gets a specific Deformation.
 		/// </summary>
 		/// <param name="id"><see cref="DeformationModel"/> Id.</param>
-		/// <returns>Specific Deformations.</returns>
+		/// <returns>Specific Deformation.</returns>
 		[HttpGet("{id}")]
 		public async Task<ActionResult<DeformationModel>> Get(string id)
 		{
 			return await this._deformationsRepository.Get(id);
+		}
+
+		/// <summary>
+		/// Gets deformations specific to authenticated user.
+		/// </summary>
+		/// <returns>Specific Deformations.</returns>
+		[Authorize]
+		[HttpGet("[action]")]
+		public async Task<ActionResult<List<DeformationModel>>> Me()
+		{
+			var user = await this._userManager.GetUserAsync(this.HttpContext.User);
+			return await this._deformationsRepository.GetByUser(user);
 		}
 	}
 }

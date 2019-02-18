@@ -28,12 +28,14 @@ export class AccountService {
 			});
 		} else {
 			this.user = new BehaviorSubject<User>(null);
+			this.removeToken();
 		}
 	}
 
 	static isValidToken(token: string): boolean {
-		// TODO - Check for token expiration
-		return !!token;
+		const jwt = AccountService.parseToken(token);
+		const date = new Date(0).setUTCSeconds(jwt.payload.exp);
+		return date.valueOf() > new Date().valueOf();
 	}
 
 	static parseToken(token: string): Jwt {
@@ -94,7 +96,7 @@ export class AccountService {
 				map((token) => {
 					const jwt = AccountService.parseToken(token);
 					if (jwt) {
-						this.setToken(JSON.stringify(jwt));
+						this.setToken(token);
 					}
 					this.user.next(<User>{
 						email: jwt.payload.sub,

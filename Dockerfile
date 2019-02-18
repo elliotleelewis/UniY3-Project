@@ -1,8 +1,8 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
 
-ENV NODE_VERSION 8.12.0
-ENV NODE_DOWNLOAD_SHA 3df19b748ee2b6dfe3a03448ebc6186a3a86aeab557018d77a0f7f3314594ef6
+ENV NODE_VERSION 10.15.0
+ENV NODE_DOWNLOAD_SHA f0b4ff9a74cbc0106bbf3ee7715f970101ac5b1bbe814404d7a0673d1da9f674
 
 # Install necessary utilities
 RUN curl -SL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" --output nodejs.tar.gz \

@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 import { UserLogin } from '../../models/api/user-login';
 import { AccountService } from '../../services/account.service';
@@ -43,17 +44,16 @@ export class LoginComponent implements OnInit {
 			return;
 		}
 		this._loading.setState(true);
-		this._account.login(this.formData).subscribe(
-			(data) => {
-				console.log(data);
-				this._router.navigateByUrl(this.redirect);
-			},
-			(error) => {
-				console.error('ERROR:', error);
-			},
-			() => {
-				this._loading.setState(false);
-			},
-		);
+		this._account
+			.login(this.formData)
+			.pipe(finalize(() => this._loading.setState(false)))
+			.subscribe(
+				() => {
+					this._router.navigateByUrl(this.redirect);
+				},
+				() => {
+					this.form.controls['email'].setErrors({ invalid: true });
+				},
+			);
 	}
 }

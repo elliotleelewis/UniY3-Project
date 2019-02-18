@@ -1,7 +1,8 @@
 import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Options } from 'ng5-slider';
+import { filter, finalize } from 'rxjs/operators';
 
 import { DeformationCreate } from '../../models/api/deformation-create';
 import { DeformationService } from '../../services/deformation.service';
@@ -18,28 +19,9 @@ export class CreateComponent implements OnInit {
 	@ViewChild('form')
 	form: NgForm;
 
-	formData = {
+	formData: DeformationCreate = {
 		name: '',
-		data: {
-			0: 0,
-			1: 0,
-			2: 0,
-			3: 0,
-			4: 0,
-			5: 0,
-			6: 0,
-			7: 0,
-			8: 0,
-			9: 0,
-			10: 0,
-			11: 0,
-			12: 0,
-			13: 0,
-			14: 0,
-			15: 0,
-			16: 0,
-			17: 0,
-		},
+		data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	};
 	sliderOptions: Options = {
 		floor: -20,
@@ -51,17 +33,21 @@ export class CreateComponent implements OnInit {
 		private _deformation: DeformationService,
 		private _loading: LoadingService,
 		private _router: Router,
+		private _activatedRoute: ActivatedRoute,
 	) {}
 
-	get deformation(): DeformationCreate {
-		return {
-			...this.formData,
-			data: Object.values(this.formData.data),
-		};
-	}
-
 	ngOnInit(): void {
-		// TODO - load named edit from route params
+		this._activatedRoute.params
+			.pipe(filter((params: { id: string }) => !!params.id))
+			.subscribe((params: { id: string }) => {
+				this._loading.setState(true);
+				this._deformation
+					.getDeformation(params.id)
+					.pipe(finalize(() => this._loading.setState(false)))
+					.subscribe((deformation) => {
+						this.formData.data = deformation.data;
+					});
+			});
 	}
 
 	onSubmit(): void {
@@ -70,10 +56,23 @@ export class CreateComponent implements OnInit {
 		}
 		this._loading.setState(true);
 		this._deformation
-			.saveDeformation(this.deformation)
+			.saveDeformation(this.formData)
+			.pipe(finalize(() => this._loading.setState(false)))
 			.subscribe((deformation) => {
-				this._loading.setState(false);
 				this._router.navigate(['/view/', deformation.id]);
 			});
+	}
+
+	randomize(): void {
+		const data: number[] = [];
+		for (let i = 0; i < this.formData.data.length; i++) {
+			const doRandom = Math.random() < 0.2;
+			data[i] = doRandom ? Math.round(Math.random() * 40 - 20) : 0;
+		}
+		this.formData.data = data;
+	}
+
+	indexer(index: number): number {
+		return index;
 	}
 }

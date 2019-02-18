@@ -24,7 +24,7 @@ namespace Project.Repositories
 
 		public async Task<List<DeformationModel>> SelectAll(int? limit = null, int? skip = null)
 		{
-			var query = await this._collection.FindAsync(new BsonDocument(), new FindOptions<DeformationModel>()
+			var query = await this._collection.FindAsync(new BsonDocument(), new FindOptions<DeformationModel>
 			{
 				Sort = Builders<DeformationModel>.Sort.Descending("Views"),
 				Limit = limit,
@@ -44,6 +44,17 @@ namespace Project.Repositories
 		{
 			await this._collection.InsertOneAsync(deformationModel);
 			return deformationModel;
+		}
+
+		public async Task<List<DeformationModel>> GetByUser(ApplicationUserModel user)
+		{
+			var query = await this._collection.FindAsync(
+				new BsonDocument("CreatedBy.Email", user.Email),
+				new FindOptions<DeformationModel>
+			{
+				Sort = Builders<DeformationModel>.Sort.Descending("Views"),
+			});
+			return await query.ToListAsync();
 		}
 	}
 }

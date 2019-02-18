@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 
 import { Deformation } from '../../models/deformation';
 import { DeformationService } from '../../services/deformation.service';
@@ -22,9 +23,11 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit(): void {
 		this._loading.setState(true);
-		this._deformation.getAllDeformations().subscribe((deformations) => {
-			this.deformations = deformations;
-			this._loading.setState(false);
-		});
+		this._deformation
+			.getAllDeformations()
+			.pipe(finalize(() => this._loading.setState(false)))
+			.subscribe((deformations) => {
+				this.deformations = deformations;
+			});
 	}
 }
