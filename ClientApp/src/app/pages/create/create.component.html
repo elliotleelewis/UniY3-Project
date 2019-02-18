@@ -2,8 +2,8 @@
 	<div class="col-8 h-100">
 		<app-deformer
 			class="d-flex position-relative h-100 align-items-center justify-content-center"
-			[deformation]="deformation"
-			*ngIf="deformation"
+			[deformation]="formData"
+			*ngIf="formData"
 		></app-deformer>
 	</div>
 	<form class="col-4 h-100 card rounded-0 border-top-0 border-bottom-0 border-right-0" #form="ngForm" (ngSubmit)="onSubmit()">
@@ -28,29 +28,13 @@
 		</div>
 		<div class="card-body p-0 oy-auto">
 			<ul class="list-group list-group-flush">
-				<li class="list-group-item" ngbPopover="Test popover" placement="left" triggers="mouseenter:mouseleave">
-					<ng5-slider [options]="sliderOptions" [(value)]="formData.data['0']"></ng5-slider>
+				<li class="list-group-item" *ngFor="let data of formData.data; let i = index; trackBy: indexer">
+					<ng5-slider [options]="sliderOptions" [(value)]="formData.data[i]"></ng5-slider>
 				</li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['1']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['2']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['3']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['4']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['5']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['6']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['7']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['8']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['9']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['10']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['11']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['12']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['13']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['14']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['15']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['16']"></ng5-slider></li>
-				<li class="list-group-item"><ng5-slider [options]="sliderOptions" [(value)]="formData.data['17']"></ng5-slider></li>
 			</ul>
 		</div>
 		<div class="card-footer">
+			<button class="btn btn-light w-100 mb-2" type="button" (click)="randomize()">Randomize</button>
 			<button class="btn btn-success btn-lg w-100" [ngClass]="{ 'disabled': !form.valid }">Save</button>
 		</div>
 	</form>

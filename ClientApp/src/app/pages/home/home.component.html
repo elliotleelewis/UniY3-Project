@@ -1,4 +1,5 @@
 <div class="container">
 	<h3>Most Popular Deformations</h3>
 	<app-deformation-list [deformations]="deformations"></app-deformation-list>
+	<p *ngIf="deformations?.length === 0">No deformations found.</p>
 </div>

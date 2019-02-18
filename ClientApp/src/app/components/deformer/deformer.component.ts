@@ -33,6 +33,10 @@ export class DeformerComponent implements OnInit, OnDestroy {
 
 	@Input()
 	deformation: Deformation;
+	@Input()
+	width = 640;
+	@Input()
+	height = 480;
 
 	canvas: HTMLCanvasElement;
 	canvasContext: CanvasRenderingContext2D;
@@ -170,6 +174,8 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		return context;
 	}
 
+	constructor(private elementRef: ElementRef) {}
+
 	ngOnInit(): void {
 		this.enabled = true;
 		this.canvas = document.createElement('canvas');
@@ -178,14 +184,20 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			.then((stream: MediaStream) => {
 				this.videoRef.nativeElement.srcObject = stream;
 				const setCanvasSize = () => {
-					// TODO - Set this up properly...
-					const { width, height } = this.videoRef.nativeElement;
-					this.canvas.width = width;
-					this.canvas.height = height;
-					this.overlayRef.nativeElement.width = width;
-					this.overlayRef.nativeElement.height = height;
-					this.webGlRef.nativeElement.width = width;
-					this.webGlRef.nativeElement.height = height;
+					const {
+						width,
+						height,
+					} = stream.getVideoTracks()[0].getSettings();
+					const aspectRatio = width / height;
+					const {
+						clientWidth,
+						clientHeight,
+					} = this.elementRef.nativeElement;
+					const clientAspectRatio = clientWidth / clientHeight;
+					// this.width = clientAspectRatio > aspectRatio ? width * clientHeight / height : clientWidth;
+					// this.height = clientAspectRatio > aspectRatio ? clientHeight : height * clientWidth / width;
+					this.canvas.width = this.width;
+					this.canvas.height = this.height;
 				};
 				this.videoRef.nativeElement.onresize = setCanvasSize;
 				setCanvasSize();
@@ -193,9 +205,11 @@ export class DeformerComponent implements OnInit, OnDestroy {
 				this.overlayContext = this.overlayRef.nativeElement.getContext(
 					'2d',
 				);
-				this.tracker = new clm.tracker();
-				this.tracker.init(pModel);
-				this.tracker.start(this.videoRef.nativeElement);
+				if (!this.tracker) {
+					this.tracker = new clm.tracker();
+					this.tracker.init(pModel);
+					this.tracker.start(this.videoRef.nativeElement);
+				}
 				this.gl = DeformerComponent.create3DContext(
 					this.webGlRef.nativeElement,
 				);
@@ -288,6 +302,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		this.enabled = false;
 		this.clear();
 		this.tracker.reset();
+		this.tracker = null;
 		this.canvas = null;
 		const stream = this.videoRef.nativeElement.srcObject as MediaStream;
 		if (stream) {
@@ -316,8 +331,8 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			this.videoRef.nativeElement,
 			0,
 			0,
-			this.canvas.width,
-			this.canvas.height,
+			this.width,
+			this.height,
 		);
 		const pos = this.tracker.getCurrentPosition() as [number, number][];
 		if (pos) {
@@ -342,12 +357,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			// @ts-ignore
 			const positions = this.tracker.calculatePositions(parameters);
 
-			this.overlayContext.clearRect(
-				0,
-				0,
-				this.overlayRef.nativeElement.width,
-				this.overlayRef.nativeElement.height,
-			);
+			this.overlayContext.clearRect(0, 0, this.width, this.height);
 
 			if (positions) {
 				newPos = positions.concat(addPos);
@@ -367,15 +377,10 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			this.videoRef.nativeElement,
 			0,
 			0,
-			this.canvas.width,
-			this.canvas.height,
+			this.width,
+			this.height,
 		);
-		this.overlayContext.clearRect(
-			0,
-			0,
-			this.canvas.width,
-			this.canvas.height,
-		);
+		this.overlayContext.clearRect(0, 0, this.width, this.height);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 	}
 
@@ -392,9 +397,9 @@ export class DeformerComponent implements OnInit, OnDestroy {
 
 		// get cropping
 		let maxx = 0;
-		let minx = element.width;
+		let minx = this.width;
 		let maxy = 0;
-		let miny = element.height;
+		let miny = this.height;
 		for (let i = 0; i < points.length; i++) {
 			if (points[i][0] > maxx) maxx = points[i][0];
 			if (points[i][0] < minx) minx = points[i][0];

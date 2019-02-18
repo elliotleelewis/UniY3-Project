@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "ng serve --aot --optimization=false",
-    "build": "ng build --prod",
+    "build": "ng build --aot --optimization=false",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
