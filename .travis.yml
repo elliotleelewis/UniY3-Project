@@ -31,11 +31,12 @@ script:
 - yarn --cwd ClientApp prettier:check
 - yarn --cwd ClientApp lint
 
-deploy:
-  provider: heroku
-  api_key: $HEROKU_TOKEN
-  app: uniy3-project
-  on: master
+# TODO - Fix deployment
+#deploy:
+#  provider: heroku
+#  api_key: $HEROKU_TOKEN
+#  app: uniy3-project
+#  on: master
 
 notifications:
   email: false
