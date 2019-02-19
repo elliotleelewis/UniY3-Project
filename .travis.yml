@@ -1,6 +1,8 @@
 language: csharp
 mono: none
+dist: xenial
 dotnet: 2.2
+sudo: required
 solution: Project.sln
 addons:
   apt:
@@ -26,9 +28,8 @@ script:
 - yarn --cwd ClientApp
 - yarn --cwd ClientApp test
 - yarn --cwd ClientApp e2e
+- yarn --cwd ClientApp prettier:check
 - yarn --cwd ClientApp lint
-# TODO - Re-enable prettier check
-#- yarn --cwd ClientApp prettier:check
 
 deploy:
   provider: heroku
