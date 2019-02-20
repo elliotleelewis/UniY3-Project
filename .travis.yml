@@ -16,27 +16,26 @@ cache:
   directories:
   - ClientApp/node_modules
 
-before_install:
-- nvm install 10.15.0
-- curl -o- -L https://yarnpkg.com/install.sh | bash
-- export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-install:
-- dotnet restore
+# TEMPORARILY DISABLED TO SPEED UP DEPLOYMENT TESTS
+#before_install:
+#- nvm install 10.15.0
+#- curl -o- -L https://yarnpkg.com/install.sh | bash
+#- export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+#install:
+#- dotnet restore
+#
+#script:
+#- dotnet build
+#- yarn --cwd ClientApp
+#- yarn --cwd ClientApp test
+#- yarn --cwd ClientApp e2e
+#- yarn --cwd ClientApp prettier:check
+#- yarn --cwd ClientApp lint
 
-script:
-- dotnet build
-- yarn --cwd ClientApp
-- yarn --cwd ClientApp test
-- yarn --cwd ClientApp e2e
-- yarn --cwd ClientApp prettier:check
-- yarn --cwd ClientApp lint
-
-# TODO - Fix deployment
-#deploy:
-#  provider: heroku
-#  api_key: $HEROKU_TOKEN
-#  app: uniy3-project
-#  on: master
+deploy:
+  provider: script
+  script: bash deploy.sh
+  on: master
 
 notifications:
   email: false
