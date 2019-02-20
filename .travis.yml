@@ -35,6 +35,7 @@ script:
 deploy:
   provider: script
   script: bash deploy.sh
+  skip_cleanup: true
 #  on: master
   on: bugs/deploy-fix
 
