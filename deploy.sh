@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-uname -a
-pwd
-ls
+sshpass -p $DEPLOY_PASSWORD ssh $DEPLOY_USER@$DEPLOY_ADDRESS "echo \$HOME"
+#uname -a
+#pwd
+#ls

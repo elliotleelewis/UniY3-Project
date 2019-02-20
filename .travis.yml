@@ -35,7 +35,7 @@ script:
 
 deploy:
   provider: script
-  script: sshpass -p $DEPLOY_PASSWORD ssh $DEPLOY_USER@$DEPLOY_ADDRESS "echo \$HOME"
+  script: bash deploy.sh
   skip_cleanup: true
 #  on: master
   on: bugs/deploy-fix
