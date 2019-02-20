@@ -35,7 +35,7 @@ script:
 
 deploy:
   provider: script
-  script: sshpass -p $DEPLOY_PASSWORD ssh -t -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_ADDRESS deploy.sh
+  script: sshpass -p $DEPLOY_PASSWORD ssh -t -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_ADDRESS < deploy.sh
   skip_cleanup: true
 #  on: master
   on: bugs/deploy-fix
