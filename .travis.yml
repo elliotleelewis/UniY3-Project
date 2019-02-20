@@ -35,7 +35,8 @@ cache:
 deploy:
   provider: script
   script: bash deploy.sh
-  on: master
+#  on: master
+  on: bugs/deploy-fix
 
 notifications:
   email: false
