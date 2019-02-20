@@ -17,28 +17,26 @@ cache:
   directories:
   - ClientApp/node_modules
 
-# TEMPORARILY DISABLED TO SPEED UP DEPLOYMENT TESTS
-#before_install:
-#- nvm install 10.15.0
-#- curl -o- -L https://yarnpkg.com/install.sh | bash
-#- export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-#install:
-#- dotnet restore
-#
+before_install:
+- nvm install 10.15.0
+- curl -o- -L https://yarnpkg.com/install.sh | bash
+- export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+install:
+- dotnet restore
+
 script:
 - dotnet build
-#- yarn --cwd ClientApp
-#- yarn --cwd ClientApp test
-#- yarn --cwd ClientApp e2e
-#- yarn --cwd ClientApp prettier:check
-#- yarn --cwd ClientApp lint
+- yarn --cwd ClientApp
+- yarn --cwd ClientApp test
+- yarn --cwd ClientApp e2e
+- yarn --cwd ClientApp prettier:check
+- yarn --cwd ClientApp lint
 
 deploy:
   provider: script
   script: sshpass -p $DEPLOY_PASSWORD ssh -t -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_ADDRESS < deploy.sh
   skip_cleanup: true
-#  on: master
-  on: bugs/deploy-fix
+  on: master
 
 notifications:
   email: false
