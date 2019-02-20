@@ -9,6 +9,7 @@ addons:
     sources:
     - google-chrome
     packages:
+    - sshpass
     - google-chrome-stable
 
 cache:
@@ -31,12 +32,11 @@ script:
 - yarn --cwd ClientApp prettier:check
 - yarn --cwd ClientApp lint
 
-# TODO - Fix deployment
-#deploy:
-#  provider: heroku
-#  api_key: $HEROKU_TOKEN
-#  app: uniy3-project
-#  on: master
+deploy:
+  provider: script
+  script: sshpass -p $DEPLOY_PASSWORD ssh -t -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_ADDRESS < deploy.sh
+  skip_cleanup: true
+  on: master
 
 notifications:
   email: false
