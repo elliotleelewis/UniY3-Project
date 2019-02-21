@@ -20,6 +20,10 @@ namespace Project.Controllers
 	using Project.Models;
 	using Project.Models.Dto;
 
+	/// <inheritdoc />
+	/// <summary>
+	/// Controller to handle account related tasks and actions.
+	/// </summary>
 	[ApiController]
 	[Authorize]
 	[Route("api/[controller]")]

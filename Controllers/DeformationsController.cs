@@ -14,6 +14,7 @@ namespace Project.Controllers
 	using Project.Models.Dto;
 	using Project.Repositories;
 
+	/// <inheritdoc />
 	/// <summary>
 	/// Handles CRUD for Deformations.
 	/// </summary>
@@ -46,7 +47,7 @@ namespace Project.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<DeformationModel>>> Index([FromQuery] int? limit, [FromQuery] int? skip)
 		{
-			return await this._deformationsRepository.SelectAll(limit, skip);
+			return await this._deformationsRepository.GetAll(limit, skip);
 		}
 
 		/// <summary>
