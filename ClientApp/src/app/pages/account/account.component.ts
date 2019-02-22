@@ -8,6 +8,9 @@ import { AccountService } from '../../services/account.service';
 import { DeformationService } from '../../services/deformation.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for account page of application.
+ */
 @Component({
 	selector: 'app-account',
 	templateUrl: './account.component.html',
@@ -15,9 +18,15 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class AccountComponent implements OnInit {
 	@HostBinding('class')
-	class = 'd-block my-3 m-sm-5';
+	private class = 'd-block my-3 m-sm-5';
 
+	/**
+	 * Current user.
+	 */
 	user: User;
+	/**
+	 * Deformations created by the current user.
+	 */
 	deformations: Deformation[];
 
 	constructor(
@@ -38,6 +47,9 @@ export class AccountComponent implements OnInit {
 			});
 	}
 
+	/**
+	 * Logs out the user.
+	 */
 	logout(): void {
 		this._account.logout();
 		this._router.navigate(['/']);

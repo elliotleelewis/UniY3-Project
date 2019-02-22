@@ -7,6 +7,9 @@ import { UserLogin } from '../../models/api/user-login';
 import { AccountService } from '../../services/account.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for login page of application.
+ */
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -14,15 +17,25 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class LoginComponent implements OnInit {
 	@HostBinding('class')
-	class = 'container-fluid d-block my-5';
+	private class = 'container-fluid d-block my-5';
 	@ViewChild('form')
-	form: NgForm;
+	private form: NgForm;
 
+	/**
+	 * Login form data.
+	 */
 	formData: UserLogin = {
 		email: '',
 		password: '',
 	};
+	/**
+	 * Path to redirect to after successful login.
+	 */
 	redirect = '/';
+	/**
+	 * Displays warning alert if auth is required for the route that triggered the login redirect.
+	 */
+	authRequired = false;
 
 	constructor(
 		private _account: AccountService,
@@ -33,12 +46,16 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit(): void {
 		this._activatedRoute.queryParams.subscribe(
-			(params: { redirect?: string }) => {
+			(params) => {
 				this.redirect = params.redirect || '/';
+				this.authRequired = !!params.authRequired;
 			},
 		);
 	}
 
+	/**
+	 * Handles submit action on the form.
+	 */
 	onSubmit(): void {
 		if (this.form.invalid) {
 			return;

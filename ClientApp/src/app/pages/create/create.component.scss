@@ -3,6 +3,9 @@
 @import '~bootstrap/scss/variables';
 
 // Styles
+:host {
+	max-height: calc(100% - #{$nav-link-height + ($navbar-padding-y * 2)});
+}
 ::ng-deep {
 	.ng5-slider {
 		.ng5-slider-bar {

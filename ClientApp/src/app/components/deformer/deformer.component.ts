@@ -24,26 +24,35 @@ import { Deformation } from '../../models/deformation';
 	styleUrls: ['./deformer.component.scss'],
 })
 export class DeformerComponent implements OnInit, OnDestroy {
-	@ViewChild('video')
-	videoRef: ElementRef<HTMLVideoElement>;
-	@ViewChild('overlay')
-	overlayRef: ElementRef<HTMLCanvasElement>;
-	@ViewChild('webGl')
-	webGlRef: ElementRef<HTMLCanvasElement>;
-
+	/**
+	 * Deformation to render.
+	 */
 	@Input()
 	deformation: Deformation;
+	/**
+	 * Width of page elements.
+	 */
 	@Input()
 	width = 640;
+	/**
+	 * Height of page elements.
+	 */
 	@Input()
 	height = 480;
 
-	canvas: HTMLCanvasElement;
-	canvasContext: CanvasRenderingContext2D;
-	overlayContext: CanvasRenderingContext2D;
-	tracker: clm.tracker;
-	enabled = false;
-	mouthVertices = [
+	@ViewChild('video')
+	private videoRef: ElementRef<HTMLVideoElement>;
+	@ViewChild('overlay')
+	private overlayRef: ElementRef<HTMLCanvasElement>;
+	@ViewChild('webGl')
+	private webGlRef: ElementRef<HTMLCanvasElement>;
+
+	private canvas: HTMLCanvasElement;
+	private canvasContext: CanvasRenderingContext2D;
+	private overlayContext: CanvasRenderingContext2D;
+	private tracker: clm.tracker;
+	private enabled = false;
+	private mouthVertices = [
 		[44, 45, 61, 44],
 		[45, 46, 61, 45],
 		[46, 60, 61, 46],
@@ -67,7 +76,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		[57, 58, 59, 57],
 		[50, 58, 59, 50],
 	];
-	extendVertices = [
+	private extendVertices = [
 		[0, 71, 72, 0],
 		[0, 72, 1, 0],
 		[1, 72, 73, 1],
@@ -116,14 +125,20 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		[19, 71, 0, 19],
 	];
 
-	gl: WebGLRenderingContext;
-	vertexMap: number[][];
-	texCoordBuffer: WebGLBuffer;
-	gridCoordBuffer: WebGLBuffer;
+	private gl: WebGLRenderingContext;
+	private vertexMap: number[][];
+	private texCoordBuffer: WebGLBuffer;
+	private gridCoordBuffer: WebGLBuffer;
 
-	drawProgram: WebGLProgram;
-	gridProgram: WebGLProgram;
+	private drawProgram: WebGLProgram;
+	private gridProgram: WebGLProgram;
 
+	/**
+	 * Loads WebGL shader.
+	 * @param gl - WebGL context.
+	 * @param shaderSource - Shader source.
+	 * @param shaderType - Shader type.
+	 */
 	static loadShader(
 		gl: WebGLRenderingContext,
 		shaderSource: string,
@@ -142,6 +157,11 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		return shader;
 	}
 
+	/**
+	 * Creates WebGL program.
+	 * @param gl - WebGL context.
+	 * @param shaders - WebGL shader array.
+	 */
 	static createProgram(
 		gl: WebGLRenderingContext,
 		shaders: WebGLShader[],
@@ -160,6 +180,10 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		return program;
 	}
 
+	/**
+	 * Creates a WebGL context from a Canvas HTML element.
+	 * @param canvas - Canvas to create context from.
+	 */
 	static create3DContext(canvas: HTMLCanvasElement): WebGLRenderingContext {
 		const names = ['webgl', 'experimental-webgl'];
 		let context = null;
@@ -293,7 +317,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 				]);
 
 				this.texCoordBuffer = this.gl.createBuffer();
-				this.render();
+				this.initRender();
 			})
 			.catch(console.error);
 	}
@@ -303,6 +327,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		this.clear();
 		this.tracker.reset();
 		this.tracker = null;
+		this.canvas.remove();
 		this.canvas = null;
 		const stream = this.videoRef.nativeElement.srcObject as MediaStream;
 		if (stream) {
@@ -310,9 +335,13 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	render(): void {
+	/**
+	 * Initializes the rendering sequence for deformation.
+	 */
+	initRender(): void {
 		if (this.enabled && this.tracker.getConvergence() < 2) {
-			this.deform();
+			this.overlayContext.clearRect(0, 0, this.width, this.height);
+			this.render();
 		} else {
 			requestAnimationFrame(() => {
 				this.clear();
@@ -320,13 +349,16 @@ export class DeformerComponent implements OnInit, OnDestroy {
 					if (this.tracker.getCurrentPosition()) {
 						this.tracker.draw(this.overlayRef.nativeElement);
 					}
-					this.render();
+					this.initRender();
 				}
 			});
 		}
 	}
 
-	deform(): void {
+	/**
+	 * Controls the rendering sequence for the deformation.
+	 */
+	render(): void {
 		this.canvasContext.drawImage(
 			this.videoRef.nativeElement,
 			0,
@@ -348,7 +380,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			let newVertices = pModel.path.vertices.concat(this.mouthVertices);
 			newVertices = newVertices.concat(this.extendVertices);
 
-			this.load(this.canvas, newPos, newVertices);
+			this.load(this.canvasContext, newPos, newVertices);
 
 			const parameters = this.tracker.getCurrentParameters();
 			for (let i = 6; i < parameters.length; i++) {
@@ -357,22 +389,23 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			// @ts-ignore
 			const positions = this.tracker.calculatePositions(parameters);
 
-			this.overlayContext.clearRect(0, 0, this.width, this.height);
-
 			if (positions) {
 				newPos = positions.concat(addPos);
-				this.draw(newPos);
+				this.deform(newPos);
 			}
 		}
 		requestAnimationFrame(() => {
 			if (this.enabled) {
-				this.deform();
+				this.render();
 			}
 		});
 	}
 
+	/**
+	 * Clears the rendering contexts.
+	 */
 	clear(): void {
-		// TODO - see if you can remove some of these...
+		// TODO - See if you can remove some of these...
 		this.canvasContext.drawImage(
 			this.videoRef.nativeElement,
 			0,
@@ -384,8 +417,14 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 	}
 
+	/**
+	 * Loads the deformation.
+	 * @param canvasContext - Canvas context to load deformation onto.
+	 * @param points - Points to load.
+	 * @param vertices - Vertices to load.
+	 */
 	load(
-		element: HTMLCanvasElement,
+		canvasContext: CanvasRenderingContext2D,
 		points: [number, number][],
 		vertices?: number[][],
 	): void {
@@ -395,7 +434,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			this.vertexMap = pModel.path.vertices;
 		}
 
-		// get cropping
+		// Get cropping
 		let maxx = 0;
 		let minx = this.width;
 		let maxy = 0;
@@ -413,10 +452,9 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		const width = maxx - minx;
 		const height = maxy - miny;
 
-		const cc = element.getContext('2d');
-		const image = cc.getImageData(minx, miny, width, height);
+		const image = canvasContext.getImageData(minx, miny, width, height);
 
-		// correct points
+		// Correct points
 		const nupoints = [];
 		for (let i = 0; i < points.length; i++) {
 			nupoints[i] = [];
@@ -424,7 +462,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			nupoints[i][1] = points[i][1] - miny;
 		}
 
-		// create vertices based on points
+		// Create vertices based on points
 		const textureVertices = [];
 		for (let i = 0; i < this.vertexMap.length; i++) {
 			textureVertices.push(nupoints[this.vertexMap[i][0]][0] / width);
@@ -435,10 +473,10 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			textureVertices.push(nupoints[this.vertexMap[i][2]][1] / height);
 		}
 
-		// load program for drawing grid
+		// Load program for drawing grid
 		this.gl.useProgram(this.gridProgram);
 
-		// set the resolution for grid program
+		// Set the resolution for grid program
 		let resolutionLocation = this.gl.getUniformLocation(
 			this.gridProgram,
 			'u_resolution',
@@ -449,16 +487,16 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			this.gl.drawingBufferHeight,
 		);
 
-		// load program for drawing deformed face
+		// Load program for drawing deformed face
 		this.gl.useProgram(this.drawProgram);
 
-		// look up where the vertex data needs to go.
+		// Look up where the vertex data needs to go.
 		const texCoordLocation = this.gl.getAttribLocation(
 			this.drawProgram,
 			'a_texCoord',
 		);
 
-		// provide texture coordinates for face vertices (i.e. where we're going to copy face vertices from).
+		// Provide texture coordinates for face vertices (i.e. where we're going to copy face vertices from).
 		this.gl.enableVertexAttribArray(texCoordLocation);
 
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texCoordBuffer);
@@ -511,7 +549,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 			image,
 		);
 
-		// set the resolution for draw program
+		// Set the resolution for draw program
 		resolutionLocation = this.gl.getUniformLocation(
 			this.drawProgram,
 			'u_resolution',
@@ -523,8 +561,12 @@ export class DeformerComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	draw(points): void {
-		// create drawvertices based on points
+	/**
+	 * Draws the deformation.
+	 * @param points - Points to draw.
+	 */
+	deform(points: [number, number][]): void {
+		// Create draw-vertices based on points
 		const vertices = [];
 		for (let i = 0; i < this.vertexMap.length; i++) {
 			vertices.push(points[this.vertexMap[i][0]][0]);

@@ -49,7 +49,7 @@ namespace Project.Repositories
 		/// <summary>
 		/// Gets a specific deformation.
 		/// </summary>
-		/// <param name="id">Id of deformation to get.</param>
+		/// <param name="id"><see cref="DeformationModel"/> Id.</param>
 		/// <returns>Specific deformation.</returns>
 		public async Task<DeformationModel> Get(string id)
 		{

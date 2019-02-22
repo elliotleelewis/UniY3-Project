@@ -6,6 +6,9 @@ import { Deformation } from '../../models/deformation';
 import { DeformationService } from '../../services/deformation.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for view page of application.
+ */
 @Component({
 	selector: 'app-view',
 	templateUrl: './view.component.html',
@@ -13,8 +16,11 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class ViewComponent implements OnInit {
 	@HostBinding('class')
-	class = 'd-flex h-100';
+	private class = 'd-flex h-100';
 
+	/**
+	 * Deformation to view.
+	 */
 	deformation: Deformation;
 
 	constructor(
@@ -24,7 +30,7 @@ export class ViewComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this._activatedRoute.params.subscribe((params: { id: string }) => {
+		this._activatedRoute.params.subscribe((params) => {
 			this._loading.setState(true);
 			this._deformation
 				.getDeformation(params.id)

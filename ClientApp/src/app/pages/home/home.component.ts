@@ -5,6 +5,9 @@ import { Deformation } from '../../models/deformation';
 import { DeformationService } from '../../services/deformation.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for home page of application.
+ */
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
@@ -12,8 +15,11 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class HomeComponent implements OnInit {
 	@HostBinding('class')
-	class = 'd-block my-3 m-sm-5';
+	private class = 'd-block my-3 m-sm-5';
 
+	/**
+	 * Array of deformations to display.
+	 */
 	deformations: Deformation[];
 
 	constructor(

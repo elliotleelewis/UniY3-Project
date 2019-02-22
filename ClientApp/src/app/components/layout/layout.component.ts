@@ -6,6 +6,9 @@ import { User } from '../../models/user';
 import { AccountService } from '../../services/account.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for layout of application.
+ */
 @Component({
 	selector: 'app-layout',
 	templateUrl: './layout.component.html',
@@ -13,24 +16,30 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class LayoutComponent implements OnInit {
 	@HostBinding('class')
-	class = 'd-flex position-relative w-100 flex-column';
+	private class = 'd-flex position-relative w-100 flex-column';
 
-	navbarCollapsed = true;
-	loading = false;
+	/**
+	 * Current user.
+	 */
 	user: User = null;
+	/**
+	 * Current loading state.
+	 */
+	loading = false;
+	/**
+	 * Redirect parameter for the login link.
+	 */
 	redirect: string = null;
+	/**
+	 * Current navbar state.
+	 */
+	navbar = false;
 
 	constructor(
 		private _account: AccountService,
 		private _loading: LoadingService,
 		private _router: Router,
 	) {}
-
-	get queryParams(): { redirect?: string } {
-		return {
-			redirect: this.redirect,
-		};
-	}
 
 	ngOnInit(): void {
 		this._account.user.subscribe((user) => (this.user = user));
@@ -39,13 +48,17 @@ export class LayoutComponent implements OnInit {
 			.pipe(filter((event) => event instanceof NavigationEnd))
 			.subscribe((event: NavigationEnd) => {
 				const blacklistUrls = ['/', '/login', '/register'];
+				// TODO - Remove query parameters and anchors from URL before check...
 				this.redirect = blacklistUrls.includes(event.urlAfterRedirects)
 					? null
 					: event.urlAfterRedirects;
 			});
 	}
 
+	/**
+	 * Toggles the navbar.
+	 */
 	toggleNavbar(): void {
-		this.navbarCollapsed = !this.navbarCollapsed;
+		this.navbar = !this.navbar;
 	}
 }

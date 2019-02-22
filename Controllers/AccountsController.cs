@@ -60,7 +60,7 @@ namespace Project.Controllers
 		}
 
 		/// <summary>
-		/// Attempts to login user with credentials passed in POST body.
+		/// Attempts to log in user with credentials passed in POST body.
 		/// </summary>
 		/// <param name="model">Credentials.</param>
 		/// <returns>JWT.</returns>

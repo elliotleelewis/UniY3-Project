@@ -8,6 +8,9 @@ import { UserRegister } from '../../models/api/user-register';
 import { AccountService } from '../../services/account.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for register page of application.
+ */
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
@@ -15,10 +18,13 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class RegisterComponent {
 	@HostBinding('class')
-	class = 'container-fluid d-block my-5';
+	private class = 'container-fluid d-block my-5';
 	@ViewChild('form')
-	form: NgForm;
+	private form: NgForm;
 
+	/**
+	 * Register form data.
+	 */
 	formData: UserRegister = {
 		email: '',
 		password: '',
@@ -31,6 +37,9 @@ export class RegisterComponent {
 		private _router: Router,
 	) {}
 
+	/**
+	 * Handles submit action on the form.
+	 */
 	onSubmit(): void {
 		if (this.form.invalid) {
 			return;
@@ -44,7 +53,7 @@ export class RegisterComponent {
 					this._router.navigate(['/']);
 				},
 				(error: HttpErrorResponse) => {
-					for (const e of error.error as { code: string }[]) {
+					for (const e of error.error) {
 						switch (e.code) {
 							case 'DuplicateUserName':
 								this.form.controls['email'].setErrors({

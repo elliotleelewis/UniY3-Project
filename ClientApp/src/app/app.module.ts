@@ -23,6 +23,9 @@ import { AccountService } from './services/account.service';
 import { DeformationService } from './services/deformation.service';
 import { MatchesValidator } from './validators/matches.validator';
 
+/**
+ * Root module for application.
+ */
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -86,6 +89,9 @@ import { MatchesValidator } from './validators/matches.validator';
 })
 export class AppModule {}
 
+/**
+ * Factory for getting a Local Storage instance.
+ */
 export function getLocalStorage(): Storage {
 	return typeof window !== 'undefined' ? window.localStorage : null;
 }
