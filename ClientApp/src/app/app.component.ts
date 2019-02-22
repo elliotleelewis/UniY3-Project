@@ -1,5 +1,8 @@
 import { Component, HostBinding } from '@angular/core';
 
+/**
+ * Root component for application.
+ */
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
@@ -7,5 +10,5 @@ import { Component, HostBinding } from '@angular/core';
 })
 export class AppComponent {
 	@HostBinding('class')
-	class = 'd-flex h-100';
+	private class = 'd-flex h-100';
 }

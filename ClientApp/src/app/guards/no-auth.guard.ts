@@ -8,12 +8,20 @@ import { Observable } from 'rxjs';
 
 import { AccountService } from '../services/account.service';
 
+/**
+ * Guard to check that there isn't a currently authenticated user.
+ */
 @Injectable({
 	providedIn: 'root',
 })
 export class NoAuthGuard implements CanActivate {
 	constructor(private _account: AccountService) {}
 
+	/**
+	 * Checks if the next route can activate or not.
+	 * @param next - The next route.
+	 * @param state - The current router state.
+	 */
 	canActivate(
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot,

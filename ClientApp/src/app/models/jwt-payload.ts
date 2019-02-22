@@ -1,7 +1,25 @@
+/**
+ * JWT Payload model.
+ */
 export interface JwtPayload {
-	aud: string;
-	exp: number;
+	/**
+	 * JWT's issuer.
+	 */
 	iss: string;
-	jti: string;
+	/**
+	 * JWT's subject.
+	 */
 	sub: string;
+	/**
+	 * JWT's audience.
+	 */
+	aud: string;
+	/**
+	 * JWT's expiration UNIX timestamp.
+	 */
+	exp: number;
+	/**
+	 * JWT's unique identifier.
+	 */
+	jti: string;
 }

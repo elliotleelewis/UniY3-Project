@@ -51,6 +51,14 @@ namespace Project
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				app.UseSwagger((o) =>
+				{
+					o.PreSerializeFilters.Add((document, request) =>
+					{
+						document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
+					});
+				});
+				app.UseSwaggerUI((c) => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniY3 - Project"); });
 			}
 			else
 			{
@@ -64,15 +72,6 @@ namespace Project
 			app.UseResponseCompression();
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
-
-			app.UseSwagger((o) =>
-			{
-				o.PreSerializeFilters.Add((document, request) =>
-				{
-					document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
-				});
-			});
-			app.UseSwaggerUI((c) => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniY3 - Project"); });
 
 			app.UseMvc((routes) =>
 			{

@@ -20,6 +20,10 @@ namespace Project.Controllers
 	using Project.Models;
 	using Project.Models.Dto;
 
+	/// <inheritdoc />
+	/// <summary>
+	/// Controller to handle account related tasks and actions.
+	/// </summary>
 	[ApiController]
 	[Authorize]
 	[Route("api/[controller]")]
@@ -56,7 +60,7 @@ namespace Project.Controllers
 		}
 
 		/// <summary>
-		/// Attempts to login user with credentials passed in POST body.
+		/// Attempts to log in user with credentials passed in POST body.
 		/// </summary>
 		/// <param name="model">Credentials.</param>
 		/// <returns>JWT.</returns>

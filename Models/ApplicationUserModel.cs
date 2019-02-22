@@ -7,6 +7,10 @@ namespace Project.Models
 	using AspNetCore.Identity.MongoDbCore.Models;
 	using MongoDB.Bson;
 
+	/// <inheritdoc />
+	/// <summary>
+	/// User model.
+	/// </summary>
 	public class ApplicationUserModel : MongoIdentityUser<ObjectId>
 	{
 	}

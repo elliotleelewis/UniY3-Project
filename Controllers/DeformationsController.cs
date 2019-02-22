@@ -14,8 +14,9 @@ namespace Project.Controllers
 	using Project.Models.Dto;
 	using Project.Repositories;
 
+	/// <inheritdoc />
 	/// <summary>
-	/// Handles CRUD for Deformations.
+	/// Handles CRUD for deformations.
 	/// </summary>
 	[ApiController]
 	[Route("api/[controller]")]
@@ -38,22 +39,33 @@ namespace Project.Controllers
 		}
 
 		/// <summary>
-		/// Gets all Deformations.
+		/// Gets all deformations.
 		/// </summary>
-		/// <param name="limit">Limits number of results returned.</param>
+		/// <param name="limit">Number of results to limit to.</param>
 		/// <param name="skip">Number of results to skip.</param>
-		/// <returns>Array of all Deformations.</returns>
+		/// <returns>List of deformations.</returns>
 		[HttpGet]
 		public async Task<ActionResult<List<DeformationModel>>> Index([FromQuery] int? limit, [FromQuery] int? skip)
 		{
-			return await this._deformationsRepository.SelectAll(limit, skip);
+			return await this._deformationsRepository.GetAll(limit, skip);
 		}
 
 		/// <summary>
-		/// Creates a new Deformations.
+		/// Gets a specific deformation.
+		/// </summary>
+		/// <param name="id"><see cref="DeformationModel"/> Id.</param>
+		/// <returns>Specific deformation.</returns>
+		[HttpGet("{id}")]
+		public async Task<ActionResult<DeformationModel>> Get(string id)
+		{
+			return await this._deformationsRepository.Get(id);
+		}
+
+		/// <summary>
+		/// Creates a deformation.
 		/// </summary>
 		/// <param name="data">POST Data.</param>
-		/// <returns>Created Deformations.</returns>
+		/// <returns>Created deformation.</returns>
 		[Authorize]
 		[HttpPost]
 		public async Task<DeformationModel> Create([FromBody] CreateDeformationDtoModel data)
@@ -70,20 +82,9 @@ namespace Project.Controllers
 		}
 
 		/// <summary>
-		/// Gets a specific Deformation.
+		/// Gets all deformations created by the authenticated user.
 		/// </summary>
-		/// <param name="id"><see cref="DeformationModel"/> Id.</param>
-		/// <returns>Specific Deformation.</returns>
-		[HttpGet("{id}")]
-		public async Task<ActionResult<DeformationModel>> Get(string id)
-		{
-			return await this._deformationsRepository.Get(id);
-		}
-
-		/// <summary>
-		/// Gets deformations specific to authenticated user.
-		/// </summary>
-		/// <returns>Specific Deformations.</returns>
+		/// <returns>List of deformations.</returns>
 		[Authorize]
 		[HttpGet("[action]")]
 		public async Task<ActionResult<List<DeformationModel>>> Me()

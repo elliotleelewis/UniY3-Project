@@ -9,6 +9,9 @@ import { Observable } from 'rxjs';
 
 import { AccountService } from '../services/account.service';
 
+/**
+ * HTTP interceptor to add the JWT authorization header to API requests.
+ */
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 	constructor(private _account: AccountService) {}

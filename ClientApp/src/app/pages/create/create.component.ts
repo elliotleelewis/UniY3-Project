@@ -8,6 +8,9 @@ import { DeformationCreate } from '../../models/api/deformation-create';
 import { DeformationService } from '../../services/deformation.service';
 import { LoadingService } from '../../services/loading.service';
 
+/**
+ * Component for create page of application.
+ */
 @Component({
 	selector: 'app-create',
 	templateUrl: './create.component.html',
@@ -15,14 +18,20 @@ import { LoadingService } from '../../services/loading.service';
 })
 export class CreateComponent implements OnInit {
 	@HostBinding('class')
-	class = 'd-flex h-100';
+	private class = 'd-flex h-100';
 	@ViewChild('form')
-	form: NgForm;
+	private form: NgForm;
 
+	/**
+	 * Create form data.
+	 */
 	formData: DeformationCreate = {
 		name: '',
 		data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	};
+	/**
+	 * `ng5-slider` options.
+	 */
 	sliderOptions: Options = {
 		floor: -20,
 		ceil: 20,
@@ -38,8 +47,8 @@ export class CreateComponent implements OnInit {
 
 	ngOnInit(): void {
 		this._activatedRoute.params
-			.pipe(filter((params: { id: string }) => !!params.id))
-			.subscribe((params: { id: string }) => {
+			.pipe(filter((params) => !!params.id))
+			.subscribe((params) => {
 				this._loading.setState(true);
 				this._deformation
 					.getDeformation(params.id)
@@ -50,19 +59,25 @@ export class CreateComponent implements OnInit {
 			});
 	}
 
+	/**
+	 * Handles submit action on the form.
+	 */
 	onSubmit(): void {
 		if (!this.form.valid) {
 			return;
 		}
 		this._loading.setState(true);
 		this._deformation
-			.saveDeformation(this.formData)
+			.createDeformation(this.formData)
 			.pipe(finalize(() => this._loading.setState(false)))
 			.subscribe((deformation) => {
 				this._router.navigate(['/view/', deformation.id]);
 			});
 	}
 
+	/**
+	 * Randomizes a set of data points in the `formData.data` array, sets the rest to 0.
+	 */
 	randomize(): void {
 		const data: number[] = [];
 		for (let i = 0; i < this.formData.data.length; i++) {
@@ -72,6 +87,10 @@ export class CreateComponent implements OnInit {
 		this.formData.data = data;
 	}
 
+	/**
+	 * Indexer used by Angular to track values in `ngFor` array.
+	 * @param index - Index of element in `ngFor` array.
+	 */
 	indexer(index: number): number {
 		return index;
 	}

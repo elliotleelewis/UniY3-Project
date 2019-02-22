@@ -3,6 +3,9 @@
 		<div class="card">
 			<div class="card-header">Login</div>
 			<form class="card-body" #form="ngForm" (ngSubmit)="onSubmit()">
+				<div class="alert alert-warning" role="alert" *ngIf="authRequired">
+					You must be logged in to visit: <strong>{{ redirect }}</strong>
+				</div>
 				<div class="form-label-group">
 					<input
 						id="email"

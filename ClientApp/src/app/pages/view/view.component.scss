@@ -1,0 +1,8 @@
+// Imports
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+// Styles
+:host {
+	max-height: calc(100% - #{$nav-link-height + ($navbar-padding-y * 2)});
+}
