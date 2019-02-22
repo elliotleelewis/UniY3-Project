@@ -45,12 +45,10 @@ export class LoginComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this._activatedRoute.queryParams.subscribe(
-			(params) => {
-				this.redirect = params.redirect || '/';
-				this.authRequired = !!params.authRequired;
-			},
-		);
+		this._activatedRoute.queryParams.subscribe((params) => {
+			this.redirect = params.redirect || '/';
+			this.authRequired = !!params.authRequired;
+		});
 	}
 
 	/**
