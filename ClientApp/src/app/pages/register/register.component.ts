@@ -32,9 +32,9 @@ export class RegisterComponent {
 	};
 
 	constructor(
-		private _account: AccountService,
-		private _loading: LoadingService,
-		private _router: Router,
+		private accountService: AccountService,
+		private loadingService: LoadingService,
+		private router: Router,
 	) {}
 
 	/**
@@ -44,19 +44,19 @@ export class RegisterComponent {
 		if (this.form.invalid) {
 			return;
 		}
-		this._loading.setState(true);
-		this._account
+		this.loadingService.setState(true);
+		this.accountService
 			.register(this.formData)
-			.pipe(finalize(() => this._loading.setState(false)))
+			.pipe(finalize(() => this.loadingService.setState(false)))
 			.subscribe(
 				() => {
-					this._router.navigate(['/']);
+					this.router.navigate(['/']);
 				},
 				(error: HttpErrorResponse) => {
 					for (const e of error.error) {
 						switch (e.code) {
 							case 'DuplicateUserName':
-								this.form.controls['email'].setErrors({
+								this.form.controls.email.setErrors({
 									unique: true,
 								});
 								break;

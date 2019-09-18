@@ -15,7 +15,7 @@ import { AccountService } from '../services/account.service';
 	providedIn: 'root',
 })
 export class NoAuthGuard implements CanActivate {
-	constructor(private _account: AccountService) {}
+	constructor(private accountService: AccountService) {}
 
 	/**
 	 * Checks if the next route can activate or not.
@@ -26,6 +26,6 @@ export class NoAuthGuard implements CanActivate {
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot,
 	): Observable<boolean> | Promise<boolean> | boolean {
-		return !this._account.isAuthenticated();
+		return !this.accountService.isAuthenticated();
 	}
 }

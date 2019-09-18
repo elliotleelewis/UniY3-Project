@@ -38,14 +38,14 @@ export class LoginComponent implements OnInit {
 	authRequired = false;
 
 	constructor(
-		private _account: AccountService,
-		private _loading: LoadingService,
-		private _router: Router,
-		private _activatedRoute: ActivatedRoute,
+		private accountService: AccountService,
+		private loadingService: LoadingService,
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
 	) {}
 
 	ngOnInit(): void {
-		this._activatedRoute.queryParams.subscribe((params) => {
+		this.activatedRoute.queryParams.subscribe((params) => {
 			this.redirect = params.redirect || '/';
 			this.authRequired = !!params.authRequired;
 		});
@@ -58,16 +58,16 @@ export class LoginComponent implements OnInit {
 		if (this.form.invalid) {
 			return;
 		}
-		this._loading.setState(true);
-		this._account
+		this.loadingService.setState(true);
+		this.accountService
 			.login(this.formData)
-			.pipe(finalize(() => this._loading.setState(false)))
+			.pipe(finalize(() => this.loadingService.setState(false)))
 			.subscribe(
 				() => {
-					this._router.navigateByUrl(this.redirect);
+					this.router.navigateByUrl(this.redirect);
 				},
 				() => {
-					this.form.controls['email'].setErrors({ invalid: true });
+					this.form.controls.email.setErrors({ invalid: true });
 				},
 			);
 	}

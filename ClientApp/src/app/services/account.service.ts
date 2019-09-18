@@ -24,15 +24,15 @@ export class AccountService {
 	readonly user: BehaviorSubject<User>;
 
 	constructor(
-		@Inject('LOCAL_STORAGE') private _localStorage: Storage,
-		private _http: HttpClient,
+		@Inject('LOCAL_STORAGE') private localStorage: Storage,
+		private http: HttpClient,
 	) {
 		const token = this.getToken();
 		const jwt = AccountService.parseToken(token);
 		if (jwt && AccountService.isValidToken(token)) {
-			this.user = new BehaviorSubject<User>(<User>{
+			this.user = new BehaviorSubject<User>({
 				email: jwt.payload.sub,
-			});
+			} as User);
 		} else {
 			this.user = new BehaviorSubject<User>(null);
 			this.removeToken();
@@ -58,17 +58,17 @@ export class AccountService {
 			return null;
 		}
 		const tokenParts = token.split('.');
-		return <Jwt>{
-			payload: <JwtPayload>JSON.parse(atob(tokenParts[1])),
+		return {
+			payload: JSON.parse(atob(tokenParts[1])) as JwtPayload,
 			token,
-		};
+		} as Jwt;
 	}
 
 	/**
 	 * Gets the JWT stored in Local Storage.
 	 */
 	getToken(): string {
-		return this._localStorage.getItem(AccountService.CURRENT_USER);
+		return this.localStorage.getItem(AccountService.CURRENT_USER);
 	}
 
 	/**
@@ -76,14 +76,14 @@ export class AccountService {
 	 * @param token - JWT
 	 */
 	setToken(token: string): void {
-		this._localStorage.setItem(AccountService.CURRENT_USER, token);
+		this.localStorage.setItem(AccountService.CURRENT_USER, token);
 	}
 
 	/**
 	 * Removes the JWT stored in Local Storage.
 	 */
 	removeToken(): void {
-		this._localStorage.removeItem(AccountService.CURRENT_USER);
+		this.localStorage.removeItem(AccountService.CURRENT_USER);
 	}
 
 	/**
@@ -98,7 +98,7 @@ export class AccountService {
 	 * @param credentials - Login credentials
 	 */
 	login(credentials: UserLogin): Observable<Jwt> {
-		return this._http
+		return this.http
 			.post('/api/accounts/login', credentials, { responseType: 'text' })
 			.pipe(
 				map((token) => {
@@ -106,9 +106,9 @@ export class AccountService {
 					if (jwt) {
 						this.setToken(token);
 					}
-					this.user.next(<User>{
+					this.user.next({
 						email: jwt.payload.sub,
-					});
+					} as User);
 					return jwt;
 				}),
 			);
@@ -127,7 +127,7 @@ export class AccountService {
 	 * @param credentials - Register credentials.
 	 */
 	register(credentials: UserRegister): Observable<Jwt> {
-		return this._http
+		return this.http
 			.post('/api/accounts/register', credentials, {
 				responseType: 'text',
 			})
@@ -137,9 +137,9 @@ export class AccountService {
 					if (jwt) {
 						this.setToken(token);
 					}
-					this.user.next(<User>{
+					this.user.next({
 						email: jwt.payload.sub,
-					});
+					} as User);
 					return jwt;
 				}),
 			);

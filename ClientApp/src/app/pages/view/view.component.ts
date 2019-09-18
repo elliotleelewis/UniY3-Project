@@ -24,17 +24,17 @@ export class ViewComponent implements OnInit {
 	deformation: Deformation;
 
 	constructor(
-		private _deformation: DeformationService,
-		private _loading: LoadingService,
-		private _activatedRoute: ActivatedRoute,
+		private deformationService: DeformationService,
+		private loadingService: LoadingService,
+		private activatedRoute: ActivatedRoute,
 	) {}
 
 	ngOnInit(): void {
-		this._activatedRoute.params.subscribe((params) => {
-			this._loading.setState(true);
-			this._deformation
+		this.activatedRoute.params.subscribe((params) => {
+			this.loadingService.setState(true);
+			this.deformationService
 				.getDeformation(params.id)
-				.pipe(finalize(() => this._loading.setState(false)))
+				.pipe(finalize(() => this.loadingService.setState(false)))
 				.subscribe((deformation) => {
 					this.deformation = deformation;
 				});

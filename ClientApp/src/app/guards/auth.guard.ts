@@ -16,7 +16,10 @@ import { AccountService } from '../services/account.service';
 	providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-	constructor(private _account: AccountService, private _router: Router) {}
+	constructor(
+		private accountService: AccountService,
+		private router: Router,
+	) {}
 
 	/**
 	 * Checks if the next route can activate or not.
@@ -27,9 +30,9 @@ export class AuthGuard implements CanActivate {
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot,
 	): Observable<boolean> | Promise<boolean> | boolean {
-		const isAuthenticated = this._account.isAuthenticated();
+		const isAuthenticated = this.accountService.isAuthenticated();
 		if (!isAuthenticated) {
-			this._router.navigate(['/login'], {
+			this.router.navigate(['/login'], {
 				queryParams: {
 					redirect: '/' + next.url.join('/'),
 					authRequired: true,

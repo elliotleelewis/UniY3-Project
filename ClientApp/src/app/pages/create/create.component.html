@@ -6,7 +6,11 @@
 			*ngIf="formData"
 		></app-deformer>
 	</div>
-	<form class="col-4 h-100 card rounded-0 border-top-0 border-bottom-0 border-right-0" #form="ngForm" (ngSubmit)="onSubmit()">
+	<form
+		class="col-4 h-100 card rounded-0 border-top-0 border-bottom-0 border-right-0"
+		#form="ngForm"
+		(ngSubmit)="onSubmit()"
+	>
 		<div class="card-header">
 			<div class="form-label-group m-0">
 				<input
@@ -16,26 +20,50 @@
 					name="name"
 					placeholder="Name"
 					required
-					[ngClass]="{ 'is-invalid': (form.submitted && name.invalid) }"
+					[ngClass]="{ 'is-invalid': form.submitted && name.invalid }"
 					[(ngModel)]="formData.name"
 					#name="ngModel"
 				/>
 				<label for="name">Name</label>
-				<div class="invalid-feedback" *ngIf="form.submitted && name.invalid">
+				<div
+					class="invalid-feedback"
+					*ngIf="form.submitted && name.invalid"
+				>
 					<div *ngIf="name.errors['required']">Name is required</div>
 				</div>
 			</div>
 		</div>
 		<div class="card-body p-0 oy-auto">
 			<ul class="list-group list-group-flush">
-				<li class="list-group-item" *ngFor="let data of formData.data; let i = index; trackBy: indexer">
-					<ng5-slider [options]="sliderOptions" [(value)]="formData.data[i]"></ng5-slider>
+				<li
+					class="list-group-item"
+					*ngFor="
+						let data of formData.data;
+						let i = index;
+						trackBy: indexer
+					"
+				>
+					<ng5-slider
+						[options]="sliderOptions"
+						[(value)]="formData.data[i]"
+					></ng5-slider>
 				</li>
 			</ul>
 		</div>
 		<div class="card-footer">
-			<button class="btn btn-light w-100 mb-2" type="button" (click)="randomize()">Randomize</button>
-			<button class="btn btn-success btn-lg w-100" [ngClass]="{ 'disabled': !form.valid }">Save</button>
+			<button
+				class="btn btn-light w-100 mb-2"
+				type="button"
+				(click)="randomize()"
+			>
+				Randomize
+			</button>
+			<button
+				class="btn btn-success btn-lg w-100"
+				[ngClass]="{ disabled: !form.valid }"
+			>
+				Save
+			</button>
 		</div>
 	</form>
 </div>

@@ -11,7 +11,7 @@ import {
  * Validator to check if two form elements have the same value.
  */
 @Directive({
-	//tslint:disable-next-line:directive-selector
+	// tslint:disable-next-line:directive-selector
 	selector: '[matches][ngModel]',
 	providers: [
 		{ provide: NG_VALIDATORS, useExisting: MatchesValidator, multi: true },

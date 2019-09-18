@@ -36,15 +36,17 @@ export class LayoutComponent implements OnInit {
 	navbar = false;
 
 	constructor(
-		private _account: AccountService,
-		private _loading: LoadingService,
-		private _router: Router,
+		private accountService: AccountService,
+		private loadingService: LoadingService,
+		private router: Router,
 	) {}
 
 	ngOnInit(): void {
-		this._account.user.subscribe((user) => (this.user = user));
-		this._loading.loading.subscribe((state) => (this.loading = state));
-		this._router.events
+		this.accountService.user.subscribe((user) => (this.user = user));
+		this.loadingService.loading.subscribe(
+			(state) => (this.loading = state),
+		);
+		this.router.events
 			.pipe(filter((event) => event instanceof NavigationEnd))
 			.subscribe((event: NavigationEnd) => {
 				const blacklistUrls = ['/', '/login', '/register'];

@@ -12,15 +12,15 @@ import { Deformation } from '../models/deformation';
 	providedIn: 'root',
 })
 export class DeformationService {
-	constructor(private _http: HttpClient) {}
+	constructor(private http: HttpClient) {}
 
 	/**
 	 * Gets all deformations.
 	 * @param params - Optional HTTP parameters
 	 */
 	getAllDeformations(params?: HttpParams): Observable<Deformation[]> {
-		return this._http.get<Deformation[]>('/api/deformations', {
-			params: params,
+		return this.http.get<Deformation[]>('/api/deformations', {
+			params,
 		});
 	}
 
@@ -29,7 +29,7 @@ export class DeformationService {
 	 * @param id - [[Deformation]] Id.
 	 */
 	getDeformation(id: string): Observable<Deformation> {
-		return this._http.get<Deformation>('/api/deformations/' + id);
+		return this.http.get<Deformation>('/api/deformations/' + id);
 	}
 
 	/**
@@ -37,13 +37,13 @@ export class DeformationService {
 	 * @param deformation - Deformation to create.
 	 */
 	createDeformation(deformation: DeformationCreate): Observable<Deformation> {
-		return this._http.post<Deformation>('/api/deformations', deformation);
+		return this.http.post<Deformation>('/api/deformations', deformation);
 	}
 
 	/**
 	 * Gets all deformations created by the authenticated user.
 	 */
 	getMyDeformations(): Observable<Deformation[]> {
-		return this._http.get<Deformation[]>('/api/deformations/me');
+		return this.http.get<Deformation[]>('/api/deformations/me');
 	}
 }

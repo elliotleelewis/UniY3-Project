@@ -14,14 +14,14 @@ import { AccountService } from '../services/account.service';
  */
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-	constructor(private _account: AccountService) {}
+	constructor(private accountService: AccountService) {}
 
 	intercept(
 		request: HttpRequest<any>,
 		next: HttpHandler,
 	): Observable<HttpEvent<any>> {
 		// Add authorization header with JWT Token if available
-		const token = this._account.getToken();
+		const token = this.accountService.getToken();
 		const jwt = AccountService.parseToken(token);
 		if (jwt && jwt.token) {
 			request = request.clone({

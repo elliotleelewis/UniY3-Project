@@ -167,8 +167,8 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 		shaders: WebGLShader[],
 	): WebGLProgram {
 		const program = gl.createProgram();
-		for (let i = 0; i < shaders.length; ++i) {
-			gl.attachShader(program, shaders[i]);
+		for (const shader of shaders) {
+			gl.attachShader(program, shader);
 		}
 		gl.linkProgram(program);
 
@@ -190,7 +190,9 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 		for (const name of names) {
 			try {
 				context = canvas.getContext(name);
-			} catch (e) {}
+			} catch (e) {
+				//
+			}
 			if (context) {
 				break;
 			}
@@ -366,7 +368,9 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 			this.width,
 			this.height,
 		);
-		const pos = this.tracker.getCurrentPosition() as [number, number][];
+		const pos = this.tracker.getCurrentPosition() as Array<
+			[number, number]
+		>;
 		if (pos) {
 			let tempPos;
 			const addPos = [];
@@ -425,7 +429,7 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 	 */
 	load(
 		canvasContext: CanvasRenderingContext2D,
-		points: [number, number][],
+		points: Array<[number, number]>,
 		vertices?: number[][],
 	): void {
 		if (vertices) {
@@ -439,11 +443,19 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 		let minx = this.width;
 		let maxy = 0;
 		let miny = this.height;
-		for (let i = 0; i < points.length; i++) {
-			if (points[i][0] > maxx) maxx = points[i][0];
-			if (points[i][0] < minx) minx = points[i][0];
-			if (points[i][1] > maxy) maxy = points[i][1];
-			if (points[i][1] < miny) miny = points[i][1];
+		for (const point of points) {
+			if (point[0] > maxx) {
+				maxx = point[0];
+			}
+			if (point[0] < minx) {
+				minx = point[0];
+			}
+			if (point[1] > maxy) {
+				maxy = point[1];
+			}
+			if (point[1] < miny) {
+				miny = point[1];
+			}
 		}
 		minx = Math.floor(minx);
 		maxx = Math.ceil(maxx);
@@ -464,13 +476,13 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 
 		// Create vertices based on points
 		const textureVertices = [];
-		for (let i = 0; i < this.vertexMap.length; i++) {
-			textureVertices.push(nupoints[this.vertexMap[i][0]][0] / width);
-			textureVertices.push(nupoints[this.vertexMap[i][0]][1] / height);
-			textureVertices.push(nupoints[this.vertexMap[i][1]][0] / width);
-			textureVertices.push(nupoints[this.vertexMap[i][1]][1] / height);
-			textureVertices.push(nupoints[this.vertexMap[i][2]][0] / width);
-			textureVertices.push(nupoints[this.vertexMap[i][2]][1] / height);
+		for (const v of this.vertexMap) {
+			textureVertices.push(nupoints[v[0]][0] / width);
+			textureVertices.push(nupoints[v[0]][1] / height);
+			textureVertices.push(nupoints[v[1]][0] / width);
+			textureVertices.push(nupoints[v[1]][1] / height);
+			textureVertices.push(nupoints[v[2]][0] / width);
+			textureVertices.push(nupoints[v[2]][1] / height);
 		}
 
 		// Load program for drawing grid
@@ -565,16 +577,16 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 	 * Draws the deformation.
 	 * @param points - Points to draw.
 	 */
-	deform(points: [number, number][]): void {
+	deform(points: Array<[number, number]>): void {
 		// Create draw-vertices based on points
 		const vertices = [];
-		for (let i = 0; i < this.vertexMap.length; i++) {
-			vertices.push(points[this.vertexMap[i][0]][0]);
-			vertices.push(points[this.vertexMap[i][0]][1]);
-			vertices.push(points[this.vertexMap[i][1]][0]);
-			vertices.push(points[this.vertexMap[i][1]][1]);
-			vertices.push(points[this.vertexMap[i][2]][0]);
-			vertices.push(points[this.vertexMap[i][2]][1]);
+		for (const v of this.vertexMap) {
+			vertices.push(points[v[0]][0]);
+			vertices.push(points[v[0]][1]);
+			vertices.push(points[v[1]][0]);
+			vertices.push(points[v[1]][1]);
+			vertices.push(points[v[2]][0]);
+			vertices.push(points[v[2]][1]);
 		}
 
 		const positionLocation = this.gl.getAttribLocation(

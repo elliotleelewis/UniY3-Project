@@ -30,18 +30,18 @@ export class AccountComponent implements OnInit {
 	deformations: Deformation[];
 
 	constructor(
-		private _account: AccountService,
-		private _deformation: DeformationService,
-		private _loading: LoadingService,
-		private _router: Router,
+		private accountService: AccountService,
+		private deformationService: DeformationService,
+		private loadingService: LoadingService,
+		private router: Router,
 	) {}
 
 	ngOnInit(): void {
-		this._loading.setState(true);
-		this._account.user.subscribe((user) => (this.user = user));
-		this._deformation
+		this.loadingService.setState(true);
+		this.accountService.user.subscribe((user) => (this.user = user));
+		this.deformationService
 			.getMyDeformations()
-			.pipe(finalize(() => this._loading.setState(false)))
+			.pipe(finalize(() => this.loadingService.setState(false)))
 			.subscribe((deformations) => {
 				this.deformations = deformations;
 			});
@@ -51,7 +51,7 @@ export class AccountComponent implements OnInit {
 	 * Logs out the user.
 	 */
 	logout(): void {
-		this._account.logout();
-		this._router.navigate(['/']);
+		this.accountService.logout();
+		this.router.navigate(['/']);
 	}
 }

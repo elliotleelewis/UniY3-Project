@@ -1,14 +1,20 @@
 <div class="container">
 	<div class="row">
 		<div class="col-9">
-			<h2>Welcome back <em>{{ user?.email }}</em></h2>
+			<h2>
+				Welcome back <em>{{ user?.email }}</em>
+			</h2>
 		</div>
-		<div class="col-3 d-flex flex-column align-items-end justify-content-center">
+		<div
+			class="col-3 d-flex flex-column align-items-end justify-content-center"
+		>
 			<button class="btn btn-danger" (click)="logout()">Logout</button>
 		</div>
 	</div>
 	<hr />
 	<h3>Your deformations</h3>
 	<app-deformation-list [deformations]="deformations"></app-deformation-list>
-	<p *ngIf="deformations?.length === 0">No deformations found for your account.</p>
+	<p *ngIf="deformations?.length === 0">
+		No deformations found for your account.
+	</p>
 </div>

@@ -39,20 +39,20 @@ export class CreateComponent implements OnInit {
 	};
 
 	constructor(
-		private _deformation: DeformationService,
-		private _loading: LoadingService,
-		private _router: Router,
-		private _activatedRoute: ActivatedRoute,
+		private deformationService: DeformationService,
+		private loadingService: LoadingService,
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
 	) {}
 
 	ngOnInit(): void {
-		this._activatedRoute.params
+		this.activatedRoute.params
 			.pipe(filter((params) => !!params.id))
 			.subscribe((params) => {
-				this._loading.setState(true);
-				this._deformation
+				this.loadingService.setState(true);
+				this.deformationService
 					.getDeformation(params.id)
-					.pipe(finalize(() => this._loading.setState(false)))
+					.pipe(finalize(() => this.loadingService.setState(false)))
 					.subscribe((deformation) => {
 						this.formData.data = deformation.data;
 					});
@@ -66,12 +66,12 @@ export class CreateComponent implements OnInit {
 		if (!this.form.valid) {
 			return;
 		}
-		this._loading.setState(true);
-		this._deformation
+		this.loadingService.setState(true);
+		this.deformationService
 			.createDeformation(this.formData)
-			.pipe(finalize(() => this._loading.setState(false)))
+			.pipe(finalize(() => this.loadingService.setState(false)))
 			.subscribe((deformation) => {
-				this._router.navigate(['/view/', deformation.id]);
+				this.router.navigate(['/view/', deformation.id]);
 			});
 	}
 

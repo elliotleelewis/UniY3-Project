@@ -23,15 +23,15 @@ export class HomeComponent implements OnInit {
 	deformations: Deformation[];
 
 	constructor(
-		private _deformation: DeformationService,
-		private _loading: LoadingService,
+		private deformationService: DeformationService,
+		private loadingService: LoadingService,
 	) {}
 
 	ngOnInit(): void {
-		this._loading.setState(true);
-		this._deformation
+		this.loadingService.setState(true);
+		this.deformationService
 			.getAllDeformations()
-			.pipe(finalize(() => this._loading.setState(false)))
+			.pipe(finalize(() => this.loadingService.setState(false)))
 			.subscribe((deformations) => {
 				this.deformations = deformations;
 			});

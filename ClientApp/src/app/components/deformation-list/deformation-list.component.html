@@ -4,7 +4,12 @@
 		[routerLink]="'/view/' + deformation.id"
 		*ngFor="let deformation of deformations"
 	>
-		<span><strong>{{ deformation.name }}</strong> - by <em>{{ deformation.createdBy.email }}</em></span>
-		<span class="badge badge-primary badge-pill">{{ deformation.views }} views</span>
+		<span
+			><strong>{{ deformation.name }}</strong> - by
+			<em>{{ deformation.createdBy.email }}</em></span
+		>
+		<span class="badge badge-primary badge-pill"
+			>{{ deformation.views }} views</span
+		>
 	</a>
 </div>
