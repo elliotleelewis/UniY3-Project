@@ -934,10 +934,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@ng-bootstrap/ng-bootstrap@^4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-4.0.4.tgz#19bf7e2bdab59e9c359b353633a5a2336410b9a5"
-  integrity sha512-77wXARMgUA0VdOAnctOlmdkeTRLESTrFpxHY8jy48FKy7DOogcq+Fs0QCBiufi5YSu8m+rmlKtoeZ8Yg9YEsbQ==
+"@ng-bootstrap/ng-bootstrap@^5.0.0":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.1.1.tgz#513d7e1e2ee3aca233e82b5dc934f48a0417a00b"
+  integrity sha512-k0OGMMxiEalrTo82XY3BNDg0pbJerrvsM79ey41sN6ex0QVMcR23211SAO9mekL8oQqqHcPw9mYN1YgC4jLEJA==
   dependencies:
     tslib "^1.9.0"
 
