@@ -9,7 +9,6 @@ addons:
     sources:
     - google-chrome
     packages:
-    - sshpass
     - google-chrome-stable
 
 cache:
@@ -18,7 +17,7 @@ cache:
   - ClientApp/node_modules
 
 before_install:
-- nvm install 10.15.1
+- nvm install 12.10.0
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 install:
@@ -31,12 +30,6 @@ script:
 - yarn --cwd ClientApp e2e
 - yarn --cwd ClientApp prettier:check
 - yarn --cwd ClientApp lint
-
-deploy:
-  provider: script
-  script: sshpass -p $DEPLOY_PASSWORD ssh -t -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_ADDRESS < deploy.sh
-  skip_cleanup: true
-  on: master
 
 notifications:
   email: false
