@@ -16,6 +16,9 @@ import { AccountService } from '../services/account.service';
 export class JwtInterceptor implements HttpInterceptor {
 	constructor(private accountService: AccountService) {}
 
+	/**
+	 * Intercepts API calls to add the JWT authorization header.
+	 */
 	intercept(
 		request: HttpRequest<any>,
 		next: HttpHandler,

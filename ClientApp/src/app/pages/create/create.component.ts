@@ -45,6 +45,9 @@ export class CreateComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 	) {}
 
+	/**
+	 * Lifecycle hook that runs when the view is initialized.
+	 */
 	ngOnInit(): void {
 		this.activatedRoute.params
 			.pipe(filter((params) => !!params.id))

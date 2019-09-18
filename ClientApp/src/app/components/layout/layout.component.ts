@@ -41,6 +41,9 @@ export class LayoutComponent implements OnInit {
 		private router: Router,
 	) {}
 
+	/**
+	 * Lifecycle hook that runs when the view is initialized.
+	 */
 	ngOnInit(): void {
 		this.accountService.user.subscribe((user) => (this.user = user));
 		this.loadingService.loading.subscribe(

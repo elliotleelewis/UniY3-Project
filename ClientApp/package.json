@@ -6,8 +6,8 @@
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prettier:fix": "prettier --write \"**/*.{md,ts,js,scss,html}\"",
-    "prettier:check": "prettier --check \"**/*.{md,ts,js,scss,html}\""
+    "prettier:fix": "prettier --write \"**/*.{md,ts,js,scss,html}\" --ignore-path .gitignore",
+    "prettier:check": "prettier --check \"**/*.{md,ts,js,scss,html}\" --ignore-path .gitignore"
   },
   "dependencies": {
     "@angular/animations": "^8.0.0",

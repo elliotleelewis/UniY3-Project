@@ -36,6 +36,9 @@ export class AccountComponent implements OnInit {
 		private router: Router,
 	) {}
 
+	/**
+	 * Lifecycle hook that runs when the view is initialized.
+	 */
 	ngOnInit(): void {
 		this.loadingService.setState(true);
 		this.accountService.user.subscribe((user) => (this.user = user));

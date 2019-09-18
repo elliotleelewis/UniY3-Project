@@ -44,6 +44,9 @@ export class LoginComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 	) {}
 
+	/**
+	 * Lifecycle hook that runs when the view is initialized.
+	 */
 	ngOnInit(): void {
 		this.activatedRoute.queryParams.subscribe((params) => {
 			this.redirect = params.redirect || '/';

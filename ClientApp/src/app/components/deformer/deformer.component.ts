@@ -202,6 +202,9 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 
 	constructor(private elementRef: ElementRef) {}
 
+	/**
+	 * Lifecycle hook that runs after the view is initialized.
+	 */
 	ngAfterViewInit(): void {
 		this.enabled = true;
 		this.canvas = document.createElement('canvas');
@@ -324,6 +327,9 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 			.catch(console.error);
 	}
 
+	/**
+	 * Lifecycle hook that runs when the view is destroyed.
+	 */
 	ngOnDestroy(): void {
 		this.enabled = false;
 		this.clear();

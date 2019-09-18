@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit {
 		private loadingService: LoadingService,
 	) {}
 
+	/**
+	 * Lifecycle hook that runs when the view is initialized.
+	 */
 	ngOnInit(): void {
 		this.loadingService.setState(true);
 		this.deformationService

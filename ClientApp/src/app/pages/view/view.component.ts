@@ -29,6 +29,9 @@ export class ViewComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 	) {}
 
+	/**
+	 * Lifecycle hook that runs when the view is initialized.
+	 */
 	ngOnInit(): void {
 		this.activatedRoute.params.subscribe((params) => {
 			this.loadingService.setState(true);
