@@ -1,9 +1,9 @@
 import {
+	AfterViewInit,
 	Component,
 	ElementRef,
 	Input,
 	OnDestroy,
-	OnInit,
 	ViewChild,
 } from '@angular/core';
 import clm from 'clmtrackr';
@@ -23,7 +23,7 @@ import { Deformation } from '../../models/deformation';
 	templateUrl: './deformer.component.html',
 	styleUrls: ['./deformer.component.scss'],
 })
-export class DeformerComponent implements OnInit, OnDestroy {
+export class DeformerComponent implements AfterViewInit, OnDestroy {
 	/**
 	 * Deformation to render.
 	 */
@@ -40,11 +40,11 @@ export class DeformerComponent implements OnInit, OnDestroy {
 	@Input()
 	height = 480;
 
-	@ViewChild('video')
+	@ViewChild('video', { static: true })
 	private videoRef: ElementRef<HTMLVideoElement>;
-	@ViewChild('overlay')
+	@ViewChild('overlay', { static: true })
 	private overlayRef: ElementRef<HTMLCanvasElement>;
-	@ViewChild('webGl')
+	@ViewChild('webGl', { static: true })
 	private webGlRef: ElementRef<HTMLCanvasElement>;
 
 	private canvas: HTMLCanvasElement;
@@ -200,7 +200,7 @@ export class DeformerComponent implements OnInit, OnDestroy {
 
 	constructor(private elementRef: ElementRef) {}
 
-	ngOnInit(): void {
+	ngAfterViewInit(): void {
 		this.enabled = true;
 		this.canvas = document.createElement('canvas');
 		navigator.mediaDevices

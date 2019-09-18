@@ -19,7 +19,7 @@ import { LoadingService } from '../../services/loading.service';
 export class CreateComponent implements OnInit {
 	@HostBinding('class')
 	private class = 'd-flex h-100';
-	@ViewChild('form')
+	@ViewChild('form', { static: true })
 	private form: NgForm;
 
 	/**

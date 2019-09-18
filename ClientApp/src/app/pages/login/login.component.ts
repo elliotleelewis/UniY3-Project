@@ -18,7 +18,7 @@ import { LoadingService } from '../../services/loading.service';
 export class LoginComponent implements OnInit {
 	@HostBinding('class')
 	private class = 'container-fluid d-block my-5';
-	@ViewChild('form')
+	@ViewChild('form', { static: true })
 	private form: NgForm;
 
 	/**
