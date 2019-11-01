@@ -14,16 +14,16 @@ namespace Project
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Hosting;
 	using Microsoft.AspNetCore.Identity;
-	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.AspNetCore.Routing;
 	using Microsoft.AspNetCore.SpaServices.AngularCli;
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.Hosting;
 	using Microsoft.IdentityModel.Tokens;
+	using Microsoft.OpenApi.Models;
 	using MongoDB.Bson;
 	using Project.Models;
 	using Project.Repositories;
-	using Swashbuckle.AspNetCore.Swagger;
 
 	/// <summary>
 	/// Web App entry point.
@@ -46,18 +46,12 @@ namespace Project
 		/// </summary>
 		/// <param name="app">Application.</param>
 		/// <param name="env">Environment.</param>
-		public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseSwagger((o) =>
-				{
-					o.PreSerializeFilters.Add((document, request) =>
-					{
-						document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
-					});
-				});
+				app.UseSwagger();
 				app.UseSwaggerUI((c) => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniY3 - Project"); });
 			}
 			else
@@ -71,13 +65,18 @@ namespace Project
 			app.UseResponseCaching();
 			app.UseResponseCompression();
 			app.UseStaticFiles();
-			app.UseSpaStaticFiles();
-
-			app.UseMvc((routes) =>
+			if (!env.IsDevelopment())
 			{
-				routes.MapRoute(
+				app.UseSpaStaticFiles();
+			}
+
+			app.UseRouting();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllerRoute(
 					name: "default",
-					template: "{controller}/{action=Index}/{id?}");
+					pattern: "{controller}/{action=Index}/{id?}");
 			});
 
 			app.UseSpa((spa) =>
@@ -100,27 +99,43 @@ namespace Project
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.Configure<RouteOptions>((options) => options.LowercaseUrls = true);
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddResponseCaching();
 			services.AddResponseCompression();
+
+			services.AddControllersWithViews();
 
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles((configuration) => { configuration.RootPath = "ClientApp/dist"; });
 
 			services.AddSwaggerGen((c) =>
 			{
-				c.SwaggerDoc("v1", new Info { Title = "UniY3 - Project", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "UniY3 - Project", Version = "v1" });
 				c.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, "Project.xml"));
-				c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 				{
 					Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
 					Name = "Authorization",
-					In = "header",
-					Type = "apiKey",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = "Bearer",
 				});
-				c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement()
 				{
-					{ "Bearer", Array.Empty<string>() },
+					{
+						new OpenApiSecurityScheme
+						{
+							Reference = new OpenApiReference
+							{
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer",
+							},
+							Scheme = "oauth2",
+							Name = "Bearer",
+							In = ParameterLocation.Header,
+
+						},
+						new List<string>()
+					},
 				});
 			});
 
