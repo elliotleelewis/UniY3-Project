@@ -5,11 +5,7 @@ dotnet: 3.1
 sudo: required
 solution: Project.sln
 addons:
-  apt:
-    sources:
-    - google-chrome
-    packages:
-    - google-chrome-stable
+  chrome: stable
 
 cache:
   yarn: true
