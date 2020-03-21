@@ -1,7 +1,7 @@
-* text=auto eol=crlf
+* text=auto eol=lf
 
 # SOURCE CODE
-*.bat      text
+*.bat      text eol=crlf
 *.coffee   text
 *.css      text
 *.htm      text
@@ -21,7 +21,7 @@
 *.sass     text
 *.scm      text
 *.scss     text
-*.sh       text eol=lf
+*.sh       text
 *.sql      text
 *.styl     text
 *.tag      text

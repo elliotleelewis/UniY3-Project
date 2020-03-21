@@ -36,6 +36,7 @@ export class CreateComponent implements OnInit {
 		floor: -20,
 		ceil: 20,
 		showSelectionBarFromValue: 0,
+		animate: false,
 	};
 
 	constructor(

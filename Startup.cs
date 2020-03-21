@@ -8,7 +8,6 @@ namespace Project
 	using System.Collections.Generic;
 	using System.IdentityModel.Tokens.Jwt;
 	using System.IO;
-	using System.Linq;
 	using System.Text;
 	using Microsoft.AspNetCore.Authentication.JwtBearer;
 	using Microsoft.AspNetCore.Builder;
@@ -60,7 +59,6 @@ namespace Project
 				app.UseHsts();
 			}
 
-			app.UseAuthentication();
 			app.UseHttpsRedirection();
 			app.UseResponseCaching();
 			app.UseResponseCompression();
@@ -71,6 +69,9 @@ namespace Project
 			}
 
 			app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{
@@ -132,7 +133,6 @@ namespace Project
 							Scheme = "oauth2",
 							Name = "Bearer",
 							In = ParameterLocation.Header,
-
 						},
 						new List<string>()
 					},

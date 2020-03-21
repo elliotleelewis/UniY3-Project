@@ -1,9 +1,9 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
 
 import { AppComponent } from './app.component';
@@ -76,7 +76,7 @@ import { MatchesValidator } from './validators/matches.validator';
 				canActivate: [AuthGuard],
 			},
 		]),
-		NgbModule,
+		NgbCollapseModule,
 		Ng5SliderModule,
 	],
 	providers: [

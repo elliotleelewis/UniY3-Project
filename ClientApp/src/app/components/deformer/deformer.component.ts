@@ -6,10 +6,11 @@ import {
 	OnDestroy,
 	ViewChild,
 } from '@angular/core';
-import clm from 'clmtrackr';
 import pModel from 'clmtrackr/models/model_pca_20_mosse';
 
 import { Deformation } from '../../models/deformation';
+
+declare var clm: any;
 
 /**
  * IMPORTANT: This logic in this component is a TypeScript implementation of a
@@ -50,6 +51,7 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 	private canvas: HTMLCanvasElement;
 	private canvasContext: CanvasRenderingContext2D;
 	private overlayContext: CanvasRenderingContext2D;
+	// @ts-ignore
 	private tracker: clm.tracker;
 	private enabled = false;
 	private mouthVertices = [
@@ -374,9 +376,7 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 			this.width,
 			this.height,
 		);
-		const pos = this.tracker.getCurrentPosition() as Array<
-			[number, number]
-		>;
+		const pos = this.tracker.getCurrentPosition() as [number, number][];
 		if (pos) {
 			let tempPos;
 			const addPos = [];
@@ -435,7 +435,7 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 	 */
 	load(
 		canvasContext: CanvasRenderingContext2D,
-		points: Array<[number, number]>,
+		points: [number, number][],
 		vertices?: number[][],
 	): void {
 		if (vertices) {
@@ -583,7 +583,7 @@ export class DeformerComponent implements AfterViewInit, OnDestroy {
 	 * Draws the deformation.
 	 * @param points - Points to draw.
 	 */
-	deform(points: Array<[number, number]>): void {
+	deform(points: [number, number][]): void {
 		// Create draw-vertices based on points
 		const vertices = [];
 		for (const v of this.vertexMap) {
