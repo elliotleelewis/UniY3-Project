@@ -20,7 +20,9 @@ describe('JwtInterceptor', () => {
 	);
 
 	it('should be created', () => {
-		const service: JwtInterceptor = TestBed.get(HTTP_INTERCEPTORS);
+		const service: JwtInterceptor = TestBed.inject(
+			HTTP_INTERCEPTORS,
+		)[0] as JwtInterceptor;
 		expect(service).toBeTruthy();
 	});
 });

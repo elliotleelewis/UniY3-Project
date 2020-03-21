@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Project": {
+    "project": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,6 +21,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -28,7 +29,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": ["node_modules/clmtrackr/build/clmtrackr.js"]
           },
           "configurations": {
             "production": {
@@ -65,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Project:build"
+            "browserTarget": "project:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Project:build:production"
+              "browserTarget": "project:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Project:build"
+            "browserTarget": "project:build"
           }
         },
         "test": {
@@ -86,9 +87,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "scripts": ["node_modules/clmtrackr/build/clmtrackr.js"]
           }
         },
         "lint": {
@@ -100,7 +101,7 @@
         }
       }
     },
-    "Project-e2e": {
+    "project-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -109,11 +110,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Project:serve"
+            "devServerTarget": "project:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Project:serve:production"
+              "devServerTarget": "project:serve:production"
             }
           }
         },
@@ -127,5 +128,5 @@
       }
     }
   },
-  "defaultProject": "Project"
+  "defaultProject": "project"
 }

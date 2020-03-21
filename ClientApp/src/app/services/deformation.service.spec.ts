@@ -11,7 +11,7 @@ describe('DeformationService', () => {
 	);
 
 	it('should be created', () => {
-		const service: DeformationService = TestBed.get(DeformationService);
+		const service: DeformationService = TestBed.inject(DeformationService);
 		expect(service).toBeTruthy();
 	});
 });
