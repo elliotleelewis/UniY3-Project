@@ -6,6 +6,7 @@ namespace Project.Models
 {
 	using System;
 	using MongoDB.Bson;
+	using MongoDB.Bson.Serialization.Attributes;
 
 	/// <summary>
 	/// Deformation model.
@@ -16,7 +17,8 @@ namespace Project.Models
 		/// Gets or sets Id.
 		/// </summary>
 		/// <value>The MongoDB Id.</value>
-		public ObjectId Id { get; set; }
+		[BsonRepresentation(BsonType.ObjectId)]
+		public string Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets Name.
