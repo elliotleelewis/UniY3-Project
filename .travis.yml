@@ -24,8 +24,9 @@ script:
 - yarn --cwd ClientApp
 - yarn --cwd ClientApp test
 - yarn --cwd ClientApp e2e
-- yarn --cwd ClientApp prettier:check
 - yarn --cwd ClientApp lint
+- yarn --cwd ClientApp stylelint
+- yarn --cwd ClientApp prettier
 
 notifications:
   email: false

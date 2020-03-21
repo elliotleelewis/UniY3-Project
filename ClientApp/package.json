@@ -4,10 +4,13 @@
     "start": "ng serve --aot --optimization=false",
     "build": "ng build --aot --optimization=false",
     "test": "ng test --watch=false",
-    "lint": "ng lint",
     "e2e": "ng e2e",
-    "prettier:fix": "prettier --write \"**/*.{md,ts,js,scss,html}\" --ignore-path .gitignore",
-    "prettier:check": "prettier --check \"**/*.{md,ts,js,scss,html}\" --ignore-path .gitignore"
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "stylelint": "stylelint src/**/*.{scss,html}",
+    "stylelint:fix": "stylelint src/**/*.{scss,html} --fix",
+    "prettier": "prettier --check \"**/*.{md,ts,js,scss,html,json,yml}\" --ignore-path .gitignore",
+    "prettier:fix": "prettier --write \"**/*.{md,ts,js,scss,html,json,yml}\" --ignore-path .gitignore"
   },
   "dependencies": {
     "@angular/animations": "^8.0.0",
@@ -47,19 +50,75 @@
     "karma-jasmine-html-reporter": "^1.0.0",
     "prettier": "^1.0.0",
     "protractor": "^5.0.0",
+    "stylelint": "^13.0.0",
+    "stylelint-config-prettier": "^8.0.0",
+    "stylelint-config-rational-order": "^0.1.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.0.0",
+    "stylelint-scss": "^3.0.0",
     "ts-node": "^8.0.0",
-    "tslint": "^5.0.0",
+    "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.0.0",
     "typescript": "~3.5.0"
   },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not IE 9-11"
+  ],
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
+    "endOfLine": "lf",
+    "overrides": [
+      {
+        "files": [
+          "*.json",
+          "*.md",
+          "*.yml"
+        ],
+        "options": {
+          "tabWidth": 2,
+          "useTabs": false
+        }
+      }
+    ],
     "semi": true,
     "singleQuote": true,
     "tabWidth": 4,
     "trailingComma": "all",
-    "useTabs": true,
-    "endOfLine": "crlf"
+    "useTabs": true
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-rational-order",
+      "stylelint-config-prettier"
+    ],
+    "plugins": [
+      "stylelint-scss"
+    ],
+    "rules": {
+      "at-rule-no-unknown": null,
+      "at-rule-no-vendor-prefix": true,
+      "media-feature-name-no-vendor-prefix": true,
+      "no-empty-source": null,
+      "property-no-vendor-prefix": true,
+      "selector-no-vendor-prefix": true,
+      "selector-pseudo-element-colon-notation": "single",
+      "selector-pseudo-element-no-unknown": [
+        true,
+        {
+          "ignorePseudoElements": [
+            "ng-deep"
+          ]
+        }
+      ],
+      "selector-type-no-unknown": null,
+      "value-no-vendor-prefix": true,
+      "scss/at-rule-no-unknown": true
+    }
   }
 }
