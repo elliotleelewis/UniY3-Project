@@ -22,7 +22,7 @@
     "@angular/platform-browser": "^9.0.0",
     "@angular/platform-browser-dynamic": "^9.0.0",
     "@angular/router": "^9.0.0",
-    "@ng-bootstrap/ng-bootstrap": "^6.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.0.0",
     "classlist.js": "1.1.20150312",
     "clmtrackr": "1.1.2",
